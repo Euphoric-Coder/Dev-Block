@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/dbConfig";
 import { currentUser } from "@clerk/nextjs/server";
-import { CodeSnippet, CodeSnippet, snippetViews } from "@/lib/schema";
+import { CodeSnippet, snippetViews } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 
 export async function POST(req) {
