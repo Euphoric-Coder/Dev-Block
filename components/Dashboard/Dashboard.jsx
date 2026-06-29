@@ -330,7 +330,7 @@ export const DashboardPage = () => {
                 Dashboard
               </h1>
               <p className="text-gray-600 dark:text-gray-300 mt-1">
-                Welcome back! Here's what's happening with your content.
+                Welcome back! Here&apos;s what&apos;s happening with your content.
               </p>
             </div>
 

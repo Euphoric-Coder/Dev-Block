@@ -103,6 +103,7 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import { ModeToggle } from "../theme-btn";
+import { useRouter } from "next/navigation";
 
 const MenuBar = ({ editor }) => {
   const imageInputRef = useRef(null);
@@ -214,7 +215,7 @@ const MenuBar = ({ editor }) => {
           }
           toast.success("Image added to editor");
         }
-      }
+      },
     );
   };
 
@@ -244,7 +245,7 @@ const MenuBar = ({ editor }) => {
                   <button
                     key={level}
                     className={buttonStyle(
-                      editor.isActive("heading", { level })
+                      editor.isActive("heading", { level }),
                     )}
                     onClick={() =>
                       editor.chain().focus().toggleHeading({ level }).run()
@@ -470,7 +471,7 @@ const MenuBar = ({ editor }) => {
                     <button
                       key={level}
                       className={buttonStyle(
-                        editor.isActive("heading", { level })
+                        editor.isActive("heading", { level }),
                       )}
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level }).run()
@@ -490,7 +491,7 @@ const MenuBar = ({ editor }) => {
             <div className="hidden md:flex xl:hidden gap-2">
               <button
                 className={buttonStyle(
-                  editor.isActive("heading", { level: 3 })
+                  editor.isActive("heading", { level: 3 }),
                 )}
                 onClick={() =>
                   editor.chain().focus().toggleHeading({ level: 3 }).run()
@@ -684,26 +685,27 @@ export default function BlogEditor({
   initialfileId = null,
   editing = false,
 }) {
+  const router = useRouter();
   const [title, setTitle] = useState(editing ? initialTitle : "");
   const [description, setDescription] = useState(
-    editing ? initialDescription : ""
+    editing ? initialDescription : "",
   );
   const [content, setContent] = useState("");
   const [uploadData, setUploadData] = useState(null);
   const [fileId, setFileId] = useState(null);
   const [unfinishedBlog, setUnfinishedBlog] = useState(false);
   const [editBlogCoverImageURL, setEditBlogCoverImageURL] = useState(
-    editing ? initialCoverImageURL : null
+    editing ? initialCoverImageURL : null,
   );
   const [editBlogCoverImageId, setEditBlogCoverImageId] = useState(
-    editing ? initialfileId : null
+    editing ? initialfileId : null,
   );
   const [editCoverImage, setEditCoverImage] = useState(editing ? true : false);
   const [category, setCategory] = useState(
-    editing ? initialCategory.toLowerCase() : blogCategories[0]
+    editing ? initialCategory.toLowerCase() : blogCategories[0],
   );
   const [selectedSubCategories, setSelectedSubCategories] = useState(
-    editing ? initialSubCategories : []
+    editing ? initialSubCategories : [],
   );
   const selectedCount = selectedSubCategories
     ? selectedSubCategories.length
@@ -831,7 +833,7 @@ export default function BlogEditor({
       const previousImages = previousImagesRef.current;
 
       const deletedImages = previousImages.filter(
-        (url) => !currentImages.includes(url)
+        (url) => !currentImages.includes(url),
       );
 
       for (const url of deletedImages) {
@@ -939,7 +941,7 @@ export default function BlogEditor({
       replacement: function (content, node) {
         const rows = Array.from(node.querySelectorAll("tr"));
         const tableData = rows.map((row) =>
-          Array.from(row.children).map((cell) => cell.textContent.trim())
+          Array.from(row.children).map((cell) => cell.textContent.trim()),
         );
 
         if (tableData.length === 0) return "";
@@ -1030,7 +1032,7 @@ export default function BlogEditor({
 
     const turndownService = new TurndownService({ headingStyle: "atx" });
 
-    // ✅ Add custom rule for code blocks with language
+    // Add custom rule for code blocks with language
     turndownService.addRule("fencedCodeBlockWithLang", {
       filter: (node) =>
         node.nodeName === "PRE" &&
@@ -1416,7 +1418,9 @@ export default function BlogEditor({
           />
         </div>
 
-        {editCoverImage && editBlogCoverImageURL && editBlogCoverImageURL !== "" ? (
+        {editCoverImage &&
+        editBlogCoverImageURL &&
+        editBlogCoverImageURL !== "" ? (
           <div className="mb-6">
             <Label
               htmlFor="blog-cover-image"
@@ -1523,7 +1527,7 @@ export default function BlogEditor({
                     Sub-Categories (
                     {
                       new Set(
-                        blogSubCategoriesList[category.toLowerCase()] || []
+                        blogSubCategoriesList[category.toLowerCase()] || [],
                       ).size
                     }
                     )
@@ -1558,7 +1562,7 @@ export default function BlogEditor({
               <div className="flex flex-wrap gap-2 mt-3">
                 {[
                   ...new Set(
-                    blogSubCategoriesList[category.toLowerCase()] || []
+                    blogSubCategoriesList[category.toLowerCase()] || [],
                   ),
                 ].map((subCategory) => {
                   const isSelected = Array.isArray(selectedSubCategories)
@@ -1578,7 +1582,7 @@ export default function BlogEditor({
 
                           if (isSelected) {
                             subCategoriesArray = subCategoriesArray.filter(
-                              (c) => c !== subCategory
+                              (c) => c !== subCategory,
                             );
                           } else {
                             subCategoriesArray.push(subCategory);
@@ -1586,7 +1590,7 @@ export default function BlogEditor({
 
                           handleInputChange(
                             "subcategories",
-                            subCategoriesArray
+                            subCategoriesArray,
                           ); // pass array directly
                           return subCategoriesArray;
                         });

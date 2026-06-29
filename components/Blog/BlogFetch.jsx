@@ -40,6 +40,17 @@ import BlogBookmark from "./BlogBookmarkButton";
 import FilterButton from "./FilterButton";
 
 const BlogFetch = ({ blogs, refreshData }) => {
+  // Helper to extract initials for avatar
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((part) => part.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   // Subcategory display component
   const SubcategoryDisplay = ({ blog }) => {
     const maxVisible = 2;
@@ -55,7 +66,7 @@ const BlogFetch = ({ blogs, refreshData }) => {
         {visibleSubcategories.map((subcategory) => (
           <span
             key={subcategory}
-            className="inline-block px-3 py-1 bg-gradient-to-r from-sky-600 to-teal-500 dark:from-pink-500 dark:to-yellow-400 text-white rounded-full text-xs md:text-sm font-semibold shadow-sm hover:scale-105 transition-transform duration-300"
+            className="inline-block px-2.5 py-0.5 bg-sky-500/10 dark:bg-teal-400/10 text-sky-700 dark:text-teal-400 border border-sky-500/20 dark:border-teal-400/20 rounded-full text-xs font-semibold shadow-sm hover:scale-105 transition-transform duration-300"
           >
             {subcategory}
           </span>
@@ -64,22 +75,22 @@ const BlogFetch = ({ blogs, refreshData }) => {
         {remainingCount > 0 && (
           <HoverCard>
             <HoverCardTrigger>
-              <button className="flex items-center px-2 py-1 bg-gradient-to-r from-blue-200 to-blue-300 dark:from-blue-800/60 dark:to-blue-700/60 text-blue-800 dark:text-blue-200 text-xs rounded-md shadow-sm font-medium hover:from-blue-300 hover:to-blue-400 dark:hover:from-blue-700/60 dark:hover:to-blue-600/60 transition-all duration-200">
-                <MoreHorizontal className="h-3 w-3 mr-1" />+{remainingCount}{" "}
+              <button className="flex items-center px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-650 dark:text-slate-350 text-xs rounded-full border border-slate-200 dark:border-slate-750 font-medium hover:bg-slate-250 dark:hover:bg-slate-700 transition-all duration-200">
+                <MoreHorizontal className="h-3 w-3 mr-0.5" />+{remainingCount}{" "}
                 more
               </button>
             </HoverCardTrigger>
 
-            <HoverCardContent side="top">
+            <HoverCardContent side="top" className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-3">
               <div className="">
-                <div className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
                   All Subcategories ({blog.subCategories.length})
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {blog.subCategories.map((subcategory) => (
                     <span
                       key={subcategory}
-                      className="px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700/60 dark:to-gray-600/60 text-gray-700 dark:text-gray-200 text-xs rounded-md font-medium"
+                      className="px-2 py-0.5 bg-slate-50 dark:bg-slate-850 text-slate-650 dark:text-slate-300 text-xs border border-slate-100 dark:border-slate-800 rounded-full font-medium"
                     >
                       {subcategory}
                     </span>
@@ -100,29 +111,26 @@ const BlogFetch = ({ blogs, refreshData }) => {
   const BlogCard = ({ blog, isListView = false }) => {
     if (isListView) {
       return (
-        <article className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-1">
-          {/* Enhanced gradient background overlay */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-blue-400 via-blue-50 to-blue-200 dark:from-gray-800 dark:via-gray-900 dark:to-black text-gray-900 dark:text-gray-100"></div>
-
+        <article className="group relative overflow-hidden rounded-[2rem] border border-white/50 dark:border-slate-800/50 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl hover:shadow-[0_20px_50px_rgba(59,130,246,0.08)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-all duration-500 hover:-translate-y-1">
           <div className="relative flex flex-col lg:flex-row">
             {/* Image */}
-            <div className="relative lg:w-80 h-48 lg:h-auto overflow-hidden">
+            <div className="relative lg:w-80 h-52 lg:h-auto overflow-hidden">
               <img
                 src={blog.blogImage || "/placeholder.png"}
                 alt={blog.title}
-                className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 to-transparent" />
 
               {/* Badges */}
               <div className="absolute top-4 left-4 flex flex-wrap gap-2">
                 {blog.featured && (
-                  <span className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-semibold rounded-full shadow-lg">
+                  <span className="px-3 py-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-bold uppercase tracking-wider rounded-full shadow-lg">
                     Featured
                   </span>
                 )}
                 {blog.trending && (
-                  <span className="px-3 py-1 bg-gradient-to-r from-red-400 to-pink-500 text-white text-xs font-semibold rounded-full flex items-center shadow-lg">
+                  <span className="px-3 py-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-[10px] font-bold uppercase tracking-wider rounded-full flex items-center shadow-lg">
                     <TrendingUp className="h-3 w-3 mr-1" />
                     Trending
                   </span>
@@ -131,14 +139,14 @@ const BlogFetch = ({ blogs, refreshData }) => {
             </div>
 
             {/* Content */}
-            <div className="flex-1 p-6 flex flex-col justify-between relative">
-              <div className="space-y-4">
-                {/* Category */}
+            <div className="flex-1 p-6 flex flex-col justify-between relative space-y-4">
+              <div className="space-y-3">
+                {/* Category and Quick Actions */}
                 <div className="flex items-center justify-between">
-                  <span className="inline-block px-3 py-1 bg-gradient-to-br from-purple-200 via-purple-100 to-purple-300 dark:from-purple-800/60 dark:via-purple-800 dark:to-purple-700/60 text-purple-800 dark:text-purple-200 text-sm font-semibold rounded-full shadow-sm">
+                  <span className="inline-block px-3 py-1 text-xs font-bold bg-indigo-50/80 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100/50 dark:border-indigo-900/30 rounded-full shadow-sm">
                     {blog.category}
                   </span>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-1.5 p-1 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md rounded-full border border-white/30 dark:border-slate-800/40 shadow-sm">
                     <BlogLike
                       blogId={blog.id}
                       initialLikes={likesMap[blog.id] ?? blog.likes ?? 0}
@@ -153,7 +161,7 @@ const BlogFetch = ({ blogs, refreshData }) => {
                       listView={true}
                     />
                     <button
-                      className="p-2 bg-white hover:bg-white/80 dark:bg-white/30 dark:hover:bg-white/40 backdrop-blur-sm rounded-full transition-colors shadow-lg"
+                      className="p-1.5 hover:text-blue-650 dark:hover:text-teal-400 transition-colors text-slate-500"
                       onClick={() => {
                         setIndividualBlog(fetchIndividualBlog(blog.id));
                         setIsShareOpen(true);
@@ -165,89 +173,70 @@ const BlogFetch = ({ blogs, refreshData }) => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 drop-shadow-sm">
+                <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-teal-400 transition-colors duration-300 line-clamp-2">
                   {blog.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-gray-700 dark:text-gray-200 leading-relaxed line-clamp-3 drop-shadow-sm font-medium">
+                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed line-clamp-3 font-medium font-poppins">
                   {blog.description}
                 </p>
 
                 {/* Subcategories */}
-                <div className="space-y-2">
-                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400">
-                    Subcategories:
+                {blog.subCategories && blog.subCategories.length > 0 && (
+                  <div className="space-y-1.5 pt-1">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                      Topics
+                    </div>
+                    <SubcategoryDisplay blog={blog} />
                   </div>
-                  <SubcategoryDisplay blog={blog} />
-                </div>
+                )}
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {blog.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex gap-1 items-center px-3 py-1 bg-gradient-to-br from-cyan-400 via-sky-300 to-sky-400 dark:from-cyan-700 dark:to-sky-600 text-white text-sm font-semibold rounded-full shadow-md"
-                    >
-                      <Tag className="h-4 w-4" />
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                {blog.tags && blog.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {blog.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex gap-1 items-center px-2.5 py-0.5 bg-blue-50/85 dark:bg-blue-950/20 border border-blue-100/30 dark:border-blue-900/10 text-blue-600 dark:text-teal-400 text-xs font-semibold rounded-full"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-400/60 dark:border-gray-500/50">
-                <div className="flex items-center space-x-4 text-sm text-gray-700 dark:text-gray-200">
-                  <div className="flex items-center space-x-1">
-                    <User className="h-4 w-4" />
-                    <span className="font-semibold">
-                      {/* Full version for medium+ screens */}
-                      <span className="hidden xl:inline">
-                        {blog.author.split(" ")[0]}{" "}
-                        {blog.author.split(" ")[1]
-                          ? blog.author.split(" ")[1]?.charAt(0).toUpperCase() +
-                            "."
-                          : ""}
-                      </span>
-
-                      {/* Short version for small screens */}
-                      <span className="inline xl:hidden">
-                        {blog.author.split(" ")[0]}
-                      </span>
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100 dark:border-slate-800/80">
+                <div className="flex items-center space-x-2.5">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 dark:from-teal-400 dark:to-indigo-500 text-white font-bold text-[10px] flex items-center justify-center shadow-md">
+                    {getInitials(blog.author)}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                      {blog.author}
                     </span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>{format(blog.date, "PPP")}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Clock className="h-4 w-4" />
-                    <span>{blog.readTime}</span>
+                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
+                      {format(new Date(blog.date), "PPP")}
+                    </span>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-3 text-sm text-gray-700 dark:text-gray-200">
+                <div className="flex items-center space-x-6">
+                  <div className="flex items-center space-x-3 text-xs font-semibold text-slate-500 dark:text-slate-400">
                     <div className="flex items-center space-x-1">
                       <Eye className="h-4 w-4" />
                       <span>{blog.views ?? "0"}</span>
                     </div>
-                    <BlogLike
-                      blogId={blog.id}
-                      initialLikes={likesMap[blog.id] ?? blog.likes ?? 0}
-                      onChange={handleLikeChange}
-                    />
-                    <BlogBookmark
-                      blogId={blog.id}
-                      onChange={handleBookmarkChange}
-                    />
+                    <div className="w-[1px] h-3 bg-slate-250 dark:bg-slate-700" />
+                    <span>{blog.readTime}</span>
                   </div>
 
                   <Link href={`/blogpost/${blog.id}`}>
-                    <button className="group/btn inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors">
+                    <button className="group/btn inline-flex items-center text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-teal-400 hover:text-blue-700 dark:hover:text-teal-350 transition-colors">
                       Read More
-                      <ArrowRight className="ml-1 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                      <ArrowRight className="ml-1 h-3.5 w-3.5 group-hover/btn:translate-x-1 transition-transform duration-200" />
                     </button>
                   </Link>
                 </div>
@@ -259,104 +248,110 @@ const BlogFetch = ({ blogs, refreshData }) => {
     }
 
     return (
-      <article className="group mb-6 relative overflow-hidden rounded-3xl shadow-lg hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-2">
-        {/* Enhanced gradient background overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-white to-blue-200 dark:from-gray-800 dark:via-gray-900 dark:to-black text-gray-900 dark:text-gray-100"></div>
-
-        {/* Image */}
-        <div className="relative h-48 overflow-hidden">
+      <article className="group relative overflow-hidden rounded-[2rem] border border-white/50 dark:border-slate-800/50 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(59,130,246,0.08)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between h-full">
+        {/* Cover Image Container */}
+        <div className="relative h-56 overflow-hidden rounded-t-[2rem]">
           <img
             src={blog.blogImage || "/placeholder.png"}
             alt={blog.title}
-            className="w-full h-full object-fill group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
 
-          {/* Badges */}
+          {/* Badges floating on image */}
           <div className="absolute top-4 left-4 flex flex-wrap gap-2">
             {blog.featured && (
-              <span className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-semibold rounded-full shadow-lg">
+              <span className="px-3 py-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] font-bold uppercase tracking-wider rounded-full shadow-lg">
                 Featured
               </span>
             )}
             {blog.trending && (
-              <span className="px-3 py-1 bg-gradient-to-r from-red-400 to-pink-500 text-white text-xs font-semibold rounded-full flex items-center shadow-lg">
+              <span className="px-3 py-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-[10px] font-bold uppercase tracking-wider rounded-full flex items-center shadow-lg">
                 <TrendingUp className="h-3 w-3 mr-1" />
                 Trending
               </span>
             )}
           </div>
 
-          {/* Quick Actions */}
-          <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <BlogBookmark
-              blogId={blog.id}
-              onChange={handleBookmarkChange}
-              showIconOnly={true}
-            />
-            <BlogLike
-              blogId={blog.id}
-              initialLikes={likesMap[blog.id] ?? blog.likes ?? 0}
-              onChange={handleLikeChange}
-              showIconOnly={true}
-            />
-
-            <button
-              className="p-2 bg-white/30 backdrop-blur-sm rounded-full text-white hover:bg-white/40 transition-colors shadow-lg"
-              onClick={() => {
-                setIndividualBlog(fetchIndividualBlog(blog.id));
-                setIsShareOpen(true);
-              }}
-            >
-              <Share2 className="h-4 w-4" />
-            </button>
+          {/* Quick Actions floating top-right */}
+          <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-[-10px] group-hover:translate-y-0">
+            <div className="flex gap-1.5 p-1 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md rounded-full border border-white/40 dark:border-slate-800/40 shadow-md">
+              <BlogBookmark
+                blogId={blog.id}
+                onChange={handleBookmarkChange}
+                showIconOnly={true}
+              />
+              <BlogLike
+                blogId={blog.id}
+                initialLikes={likesMap[blog.id] ?? blog.likes ?? 0}
+                onChange={handleLikeChange}
+                showIconOnly={true}
+              />
+              <button
+                className="p-2 text-slate-750 hover:text-blue-600 dark:text-slate-350 dark:hover:text-teal-400 transition-colors"
+                onClick={() => {
+                  setIndividualBlog(fetchIndividualBlog(blog.id));
+                  setIsShareOpen(true);
+                }}
+              >
+                <Share2 className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="relative p-6 space-y-4">
-          {/* Category */}
-          <span className="inline-block px-3 py-1 bg-gradient-to-br from-purple-200 via-purple-100 to-purple-300 dark:from-purple-800/60 dark:via-purple-800 dark:to-purple-700/60 text-purple-800 dark:text-purple-200 text-sm font-semibold rounded-full shadow-sm">
-            {blog.category}
-          </span>
-
-          {/* Title */}
-          <h3 className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-teal-500 to-emerald-400 dark:from-pink-400 dark:via-orange-300 dark:to-yellow-400 transition-all duration-300 leading-tight">
-            {blog.title}
-          </h3>
-
-          {/* Description */}
-          <p className="text-gray-700 dark:text-gray-200 leading-relaxed line-clamp-3 drop-shadow-sm font-medium">
-            {blog.description ?? "No Description Available"}
-          </p>
-
-          {/* Subcategories */}
-          <div className="space-y-2">
-            <div className="text-xs font-medium text-gray-600 dark:text-gray-400">
-              Subcategories: {blog.subCategories.length === 0 && "NA"}
-            </div>
-            <SubcategoryDisplay blog={blog} />
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2">
-            {blog.tags.slice(0, 3).map((tag) => (
-              <span
-                key={tag}
-                className="inline-flex gap-1 items-center px-3 py-1 bg-gradient-to-br from-cyan-400 via-sky-300 to-sky-400 dark:from-cyan-700 dark:to-sky-600 text-white text-sm font-semibold rounded-full shadow-md"
-              >
-                <Tag className="h-4 w-4" />
-                {tag}
+        {/* Content Body */}
+        <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+          <div className="space-y-3">
+            {/* Category badge */}
+            <div className="flex items-center justify-between">
+              <span className="inline-block px-3 py-1 text-xs font-bold bg-indigo-50/80 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100/50 dark:border-indigo-900/30 rounded-full shadow-sm">
+                {blog.category}
               </span>
-            ))}
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold">{blog.readTime}</span>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-teal-400 transition-colors duration-300 leading-snug line-clamp-2">
+              {blog.title}
+            </h3>
+
+            {/* Description */}
+            <p className="text-slate-650 dark:text-slate-300 text-sm leading-relaxed line-clamp-3 font-medium font-poppins">
+              {blog.description ?? "No Description Available"}
+            </p>
+
+            {/* Subcategories */}
+            {blog.subCategories && blog.subCategories.length > 0 && (
+              <div className="space-y-1.5 pt-1">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  Topics
+                </div>
+                <SubcategoryDisplay blog={blog} />
+              </div>
+            )}
+
+            {/* Tags */}
+            {blog.tags && blog.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {blog.tags.slice(0, 3).map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex gap-1 items-center px-2.5 py-0.5 bg-blue-50/85 dark:bg-blue-950/20 border border-blue-100/30 dark:border-blue-900/10 text-blue-600 dark:text-teal-400 text-xs font-semibold rounded-full"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Stats */}
-          <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-200">
+          {/* Stats Bar */}
+          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-3 border-t border-slate-100 dark:border-slate-800/85">
             <div className="flex items-center space-x-3">
               <div className="flex items-center space-x-1">
                 <Eye className="h-4 w-4" />
-                <span>{blog.views ?? "0"}</span>
+                <span className="font-semibold">{blog.views ?? "0"}</span>
               </div>
               <BlogLike
                 blogId={blog.id}
@@ -365,38 +360,28 @@ const BlogFetch = ({ blogs, refreshData }) => {
               />
               <BlogBookmark blogId={blog.id} onChange={handleBookmarkChange} />
             </div>
-            <span className="font-semibold">{blog.readTime}</span>
           </div>
 
-          {/* Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-gray-300/50 dark:border-gray-500/50">
-            <div className="flex items-center space-x-2">
-              <User className="h-4 w-4 text-gray-600 dark:text-gray-300" />
-              <span className="font-semibold">
-                {/* Full version for medium+ screens */}
-                <span className="hidden xl:inline">
-                  {blog.author.split(" ")[0]}{" "}
-                  {blog.author.split(" ")[1]
-                    ? blog.author.split(" ")[1]?.charAt(0).toUpperCase() + "."
-                    : ""}
+          {/* Footer Card Section with Author */}
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800/80 mt-1">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 dark:from-teal-400 dark:to-indigo-500 text-white font-bold text-[10px] flex items-center justify-center shadow-md">
+                {getInitials(blog.author)}
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                  {blog.author}
                 </span>
-
-                {/* Short version for small screens */}
-                <span className="inline xl:hidden">
-                  {blog.author.split(" ")[0]}
+                <span className="text-[9px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
+                  {format(new Date(blog.date), "PPP")}
                 </span>
-              </span>
-
-              <span className="text-gray-400 dark:text-gray-500">•</span>
-              <span className="text-sm text-gray-700 dark:text-gray-200">
-                {format(blog.date, "PPP")}
-              </span>
+              </div>
             </div>
 
             <Link href={`/blogpost/${blog.id}`}>
-              <button className="group/btn inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors">
+              <button className="group/btn inline-flex items-center text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-teal-400 hover:text-blue-700 dark:hover:text-teal-350 transition-colors">
                 Read More
-                <ArrowRight className="ml-1 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-1 h-3 w-3 group-hover/btn:translate-x-1 transition-transform duration-200" />
               </button>
             </Link>
           </div>
@@ -417,6 +402,7 @@ const BlogFetch = ({ blogs, refreshData }) => {
 
     return () => window.removeEventListener("resize", updateViewMode);
   }, []);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [individualBlog, setIndividualBlog] = useState(null);
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -613,9 +599,9 @@ const BlogFetch = ({ blogs, refreshData }) => {
       {/* Search Bar & Filter Button for Non-Mobile Devices */}
       <div className="hidden md:flex justify-center mb-16 gap-4 items-center pt-3 px-6">
         <div className="relative max-w-4xl w-full mx-auto">
-          <div className="relative bg-gradient-to-r from-blue-50 via-white to-teal-50 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-3xl shadow-lg border border-blue-500 dark:border-gray-300">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-x-4 sm:gap-y-0">
-              <div className="flex items-center justify-center w-12 h-12 text-gray-400">
+          <div className="relative bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-[2rem] shadow-[0_15px_40px_rgba(0,0,0,0.03)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-slate-800 focus-within:border-blue-500/80 dark:focus-within:border-teal-500/80 focus-within:ring-4 focus-within:ring-blue-500/10 dark:focus-within:ring-teal-500/10 transition-all duration-300">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-x-4 sm:gap-y-0 px-4 py-1">
+              <div className="flex items-center justify-center w-10 h-10 text-slate-400 dark:text-slate-500">
                 <Search className="h-5 w-5" />
               </div>
               <input
@@ -623,21 +609,22 @@ const BlogFetch = ({ blogs, refreshData }) => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search blogs by title, content, or tags..."
-                className="flex-1 min-w-[200px] max-w-full sm:max-w-none h-12 px-1 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-transparent border-none outline-none"
+                className="flex-1 min-w-[200px] max-w-full sm:max-w-none h-12 px-1 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 bg-transparent border-none outline-none font-medium text-sm"
               />
 
-              <div className="flex flex-wrap gap-2 items-center pr-4">
+              <div className="flex flex-wrap gap-3 items-center pr-2">
                 {/* Clear Button Inside Search Bar */}
                 <div>
                   {isSearchActive && (
                     <Button
                       onClick={() => setSearchTerm("")}
-                      className=" text-white px-3 py-1 rounded-full shadow-md text-sm xs:text-base transition-transform duration-300 bg-gradient-to-r from-blue-500 to-teal-500 dark:from-pink-400 dark:to-yellow-400 hover:scale-110 active:scale-95"
+                      className="text-white px-4 py-1.5 rounded-full shadow-md text-xs font-bold tracking-wider uppercase transition-transform hover:scale-105 active:scale-95 bg-gradient-to-r from-blue-600 to-teal-500 dark:from-teal-400 dark:to-indigo-500"
                     >
                       Clear
                     </Button>
                   )}
                 </div>
+                <div className="w-[1px] h-6 bg-slate-200 dark:bg-slate-850" />
                 <FilterButton
                   tempFilters={tempFilters}
                   setTempFilters={setTempFilters}
@@ -665,24 +652,24 @@ const BlogFetch = ({ blogs, refreshData }) => {
         <div className="relative max-w-3xl w-full">
           <Input
             type="text"
-            placeholder="Search transactions by name, description, or category..."
+            placeholder="Search blogs by name, description, category..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-6 py-5 rounded-full placeholder:text-[10px] text-[11px] font-bold shadow-lg border transition-all duration-300 bg-white dark:bg-gray-900 dark:text-white text-gray-800 border-gray-300 dark:border-gray-600 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500 dark:focus:ring-purple-600"
+            className="w-full px-6 py-5 rounded-full placeholder:text-xs text-xs font-semibold shadow-md border transition-all duration-300 bg-white/60 dark:bg-slate-900/60 dark:text-white text-slate-800 border-slate-200 dark:border-slate-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/10 dark:focus:ring-teal-500/10"
           />
 
           {/* Clear Button Inside Search Bar */}
           {isSearchActive && (
             <Button
               onClick={() => setSearchTerm("")}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white px-3 py-1 rounded-full shadow-md text-sm xs:text-base transition-transform duration-300 bg-gradient-to-r from-blue-500 to-teal-500 dark:from-pink-400 dark:to-yellow-400 hover:scale-110 active:scale-95"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white px-3 py-1 rounded-full shadow-md text-xs font-bold tracking-wider uppercase bg-gradient-to-r from-blue-600 to-teal-550 dark:from-teal-400 dark:to-indigo-500 hover:scale-105 active:scale-95"
             >
               Clear
             </Button>
           )}
         </div>
       </div>
-      <div className="flex md:hidden justify-center mb-6 gap-4 items-center pt-3 px-6">
+      <div className="flex md:hidden justify-center mb-6 gap-4 items-center pt-1 px-6">
         <FilterButton
           tempFilters={tempFilters}
           setTempFilters={setTempFilters}
@@ -700,39 +687,45 @@ const BlogFetch = ({ blogs, refreshData }) => {
           handleDialogClose={handleDialogClose}
         />
       </div>
-      <div className="max-w-screen-3xl flex items-center justify-center md:justify-between mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-        <div className="text-sm text-gray-600 dark:text-gray-400">
+      
+      <div className="max-w-[1400px] flex items-center justify-between mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
           Showing {displayedBlogs.length} of {blogs.length} blogs
         </div>
-        <div className="hidden md:flex items-center space-x-2">
+        
+        {/* Unified Segmented View Control Toggle Switch */}
+        <div className="hidden md:flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-2xl border border-slate-200/50 dark:border-slate-800/50 shadow-inner">
           <button
             onClick={() => setViewMode("grid")}
-            className={`p-2 rounded-lg transition-colors ${
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
               viewMode === "grid"
-                ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
-                : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-teal-400 shadow-md"
+                : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
           >
-            <Grid className="h-5 w-5" />
+            <Grid className="h-4 w-4" />
+            Grid
           </button>
           <button
             onClick={() => setViewMode("list")}
-            className={`p-2 rounded-lg transition-colors ${
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
               viewMode === "list"
-                ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
-                : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-teal-400 shadow-md"
+                : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
           >
-            <List className="h-5 w-5" />
+            <List className="h-4 w-4" />
+            List
           </button>
         </div>
       </div>
-      <div className="max-w-screen-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {displayedBlogs.length > 0 ? (
           <div
             className={`${
               viewMode === "grid"
-                ? "grid md:grid-cols-2 xl:grid-cols-3 gap-8"
+                ? "grid md:grid-cols-2 lg:grid-cols-3 gap-8"
                 : "space-y-8"
             }`}
           >
@@ -745,15 +738,15 @@ const BlogFetch = ({ blogs, refreshData }) => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <div className="text-gray-400 mb-4">
+          <div className="text-center py-24 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl border border-slate-200/50 dark:border-slate-800/50 rounded-[2.5rem] max-w-2xl mx-auto shadow-sm">
+            <div className="text-slate-350 dark:text-slate-600 mb-4 animate-pulse">
               <Search className="h-16 w-16 mx-auto" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
               No blogs found
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Try adjusting your search criteria or filters
+            <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+              We couldn&apos;t find any articles matching your filters. Try adjusting your search criteria or reset filters to explore all topics.
             </p>
           </div>
         )}

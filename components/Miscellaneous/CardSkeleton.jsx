@@ -2,28 +2,42 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const CardSkeleton = () => {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border shadow-sm border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition hover:shadow-md hover:-translate-y-1 duration-300">
-      {/* Cover image */}
-      <Skeleton className="h-48 w-full rounded-t-2xl" />
+    <div className="relative overflow-hidden rounded-[2rem] border border-white/50 dark:border-slate-800/50 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl p-5 space-y-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+      {/* Cover image placeholder */}
+      <div className="relative h-48 w-full overflow-hidden rounded-2xl">
+        <Skeleton className="h-full w-full bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
+      </div>
 
-      <div className="p-4 space-y-3">
-        {/* Category pill */}
-        <Skeleton className="h-5 w-24 rounded-full" />
+      <div className="space-y-4">
+        {/* Category badge placeholder */}
+        <Skeleton className="h-6 w-24 rounded-full bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
 
-        {/* Title */}
-        <Skeleton className="h-6 w-3/4 rounded-md" />
+        {/* Title placeholder */}
+        <Skeleton className="h-7 w-11/12 rounded-lg bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
 
-        {/* Description lines */}
-        <Skeleton className="h-4 w-full rounded-md" />
-        <Skeleton className="h-4 w-5/6 rounded-md" />
+        {/* Description placeholder */}
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-full rounded bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
+          <Skeleton className="h-4 w-full rounded bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
+          <Skeleton className="h-4 w-2/3 rounded bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
+        </div>
 
-        {/* Author section */}
-        <div className="flex items-center gap-3 pt-4">
-          <Skeleton className="h-9 w-9 rounded-full" />
-          <div className="space-y-1">
-            <Skeleton className="h-3 w-24 rounded-md" />
-            <Skeleton className="h-3 w-16 rounded-md" />
+        {/* Tags placeholder */}
+        <div className="flex gap-2">
+          <Skeleton className="h-6 w-16 rounded-full bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
+          <Skeleton className="h-6 w-20 rounded-full bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
+        </div>
+
+        {/* Divider */}
+        <div className="h-[1px] bg-gray-200/60 dark:bg-slate-800/40 my-1" />
+
+        {/* Footer details placeholder */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-6 w-6 rounded-full bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
+            <Skeleton className="h-4 w-24 rounded bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
           </div>
+          <Skeleton className="h-4 w-12 rounded bg-gray-200/60 dark:bg-slate-800/60 animate-pulse" />
         </div>
       </div>
     </div>
