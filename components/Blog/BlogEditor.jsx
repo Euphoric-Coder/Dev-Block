@@ -228,25 +228,25 @@ const MenuBar = ({ editor }) => {
   };
 
   const buttonStyle = (isActive) =>
-    `text-md px-3 py-1 rounded-xl transition ${
+    `text-sm p-2 rounded-xl transition-all duration-200 flex items-center justify-center ${
       isActive
-        ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white dark:from-blue-600 dark:to-purple-700"
-        : "text-foreground hover:bg-muted/80 dark:hover:bg-slate-700"
+        ? "bg-blue-500 text-white shadow-sm shadow-blue-500/20 dark:bg-blue-600"
+        : "text-slate-650 dark:text-slate-350 hover:bg-slate-100 dark:hover:bg-slate-850 hover:text-slate-900 dark:hover:text-white"
     }`;
 
   return (
-    <div className="sticky top-0 flex flex-wrap items-center justify-between rounded-tr-2xl rounded-tl-2xl gap-2 border-r border-l border-2 border-blue-600 dark:border-blue-400 p-4 backdrop-blur-md bg-white/60 dark:bg-slate-900/60">
-      <div className="hidden xl:flex w-full gap-1 items-center justify-between">
-        <div className="flex items-center">
+    <div className="sticky top-0 flex flex-wrap items-center justify-between rounded-t-3xl gap-2 border border-slate-200 dark:border-slate-800 p-3 backdrop-blur-xl bg-white/70 dark:bg-slate-950/70 z-30 shadow-sm">
+      <div className="hidden xl:flex w-full gap-2 items-center justify-between">
+        <div className="flex items-center space-x-1">
           {[1, 2, 3].map((level) => (
             <TooltipProvider key={level}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
                     key={level}
-                    className={buttonStyle(
+                    className={`${buttonStyle(
                       editor.isActive("heading", { level }),
-                    )}
+                    )} font-bold w-9 h-9 text-xs`}
                     onClick={() =>
                       editor.chain().focus().toggleHeading({ level }).run()
                     }
@@ -261,6 +261,8 @@ const MenuBar = ({ editor }) => {
             </TooltipProvider>
           ))}
 
+          <div className="w-[1px] h-5 bg-slate-200 dark:bg-slate-800 mx-1" />
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -270,7 +272,7 @@ const MenuBar = ({ editor }) => {
                     editor.chain().focus().toggleBulletList().run()
                   }
                 >
-                  <MdFormatListBulleted size={30} className="mr-1" />
+                  <MdFormatListBulleted size={20} />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -288,7 +290,7 @@ const MenuBar = ({ editor }) => {
                     editor.chain().focus().toggleOrderedList().run()
                   }
                 >
-                  <MdFormatListNumbered size={30} className="mr-1" />
+                  <MdFormatListNumbered size={20} />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -297,6 +299,8 @@ const MenuBar = ({ editor }) => {
             </Tooltip>
           </TooltipProvider>
 
+          <div className="w-[1px] h-5 bg-slate-200 dark:bg-slate-800 mx-1" />
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -304,7 +308,7 @@ const MenuBar = ({ editor }) => {
                   className={buttonStyle(editor.isActive("bold"))}
                   onClick={() => editor.chain().focus().toggleBold().run()}
                 >
-                  <MdFormatBold size={30} className="mr-1" />
+                  <MdFormatBold size={20} />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -320,7 +324,7 @@ const MenuBar = ({ editor }) => {
                   className={buttonStyle(editor.isActive("italic"))}
                   onClick={() => editor.chain().focus().toggleItalic().run()}
                 >
-                  <MdFormatItalic size={30} className="mr-1" />
+                  <MdFormatItalic size={20} />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -338,7 +342,7 @@ const MenuBar = ({ editor }) => {
                     editor.chain().focus().toggleBlockquote().run()
                   }
                 >
-                  <MdFormatQuote size={30} className="mr-1" />
+                  <MdFormatQuote size={20} />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -354,7 +358,7 @@ const MenuBar = ({ editor }) => {
                   className={buttonStyle(editor.isActive("codeBlock"))}
                   onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                 >
-                  <MdCode size={30} className="mr-1" />
+                  <MdCode size={20} />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -362,6 +366,8 @@ const MenuBar = ({ editor }) => {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
+
+          <div className="w-[1px] h-5 bg-slate-200 dark:bg-slate-800 mx-1" />
 
           <TooltipProvider>
             <Tooltip>
@@ -376,7 +382,7 @@ const MenuBar = ({ editor }) => {
                       .run()
                   }
                 >
-                  <MdTableChart className="mr-1" />
+                  <MdTableChart size={18} />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -392,7 +398,7 @@ const MenuBar = ({ editor }) => {
                   className={buttonStyle(editor.isActive("link"))}
                   onClick={() => setOpen(true)}
                 >
-                  <MdLink className="mr-1" />
+                  <MdLink size={18} />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -408,7 +414,7 @@ const MenuBar = ({ editor }) => {
                   className={buttonStyle(editor.isActive("image"))}
                   onClick={() => imageInputRef.current?.click()}
                 >
-                  <ImageIcon className="mr-1" />
+                  <ImageIcon size={18} />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -419,8 +425,12 @@ const MenuBar = ({ editor }) => {
         </div>
 
         {/* Clear Button */}
-        <button onClick={() => editor.commands.clearContent(true)}>
-          <Trash />
+        <button 
+          onClick={() => editor.commands.clearContent(true)}
+          className="p-2 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 hover:text-red-650 transition-colors flex items-center justify-center"
+          title="Clear content"
+        >
+          <Trash size={18} />
         </button>
       </div>
 
@@ -508,7 +518,7 @@ const MenuBar = ({ editor }) => {
                         editor.chain().focus().toggleBulletList().run()
                       }
                     >
-                      <MdFormatListBulleted size={30} className="mr-1" />
+                      <MdFormatListBulleted size={20} />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -526,7 +536,7 @@ const MenuBar = ({ editor }) => {
                         editor.chain().focus().toggleOrderedList().run()
                       }
                     >
-                      <MdFormatListNumbered size={30} className="mr-1" />
+                      <MdFormatListNumbered size={20} />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -540,20 +550,20 @@ const MenuBar = ({ editor }) => {
           {/* MENU: Shown on Mobile & Tablet */}
           <div className="xl:hidden flex">
             <Menu>
-              <MenuButton className="inline-flex items-center gap-2 rounded-md bg-white dark:bg-gray-900 px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-100 shadow-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                Options
-                <ChevronDownIcon className="size-4 text-gray-600 dark:text-gray-400" />
+              <MenuButton className="inline-flex items-center gap-2 rounded-xl bg-white dark:bg-slate-900 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-850 transition-colors">
+                Formatting
+                <ChevronDownIcon className="size-4 text-slate-500" />
               </MenuButton>
 
               <MenuItems
                 transition
                 anchor="bottom end"
-                className="w-60 mt-2 origin-top-right rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-1 shadow-lg ring-1 ring-black/10 dark:ring-white/10 focus:outline-none"
+                className="w-56 mt-2 origin-top-right rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl p-1.5 shadow-xl focus:outline-none z-40"
               >
                 {/* Bullet List */}
                 <MenuItem className="flex md:hidden">
                   <button
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-slate-700 dark:text-slate-200 transition-colors"
                     onClick={() =>
                       editor.chain().focus().toggleBulletList().run()
                     }
@@ -565,7 +575,7 @@ const MenuBar = ({ editor }) => {
                 {/* Numbered List */}
                 <MenuItem className="flex md:hidden">
                   <button
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-slate-700 dark:text-slate-200 transition-colors"
                     onClick={() =>
                       editor.chain().focus().toggleOrderedList().run()
                     }
@@ -577,7 +587,7 @@ const MenuBar = ({ editor }) => {
                 <MenuItem>
                   <button
                     onClick={() => editor.chain().focus().toggleBold().run()}
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-slate-700 dark:text-slate-200 transition-colors"
                   >
                     <MdFormatBold className="text-lg" /> Bold
                   </button>
@@ -587,7 +597,7 @@ const MenuBar = ({ editor }) => {
                 <MenuItem>
                   <button
                     onClick={() => editor.chain().focus().toggleItalic().run()}
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-slate-700 dark:text-slate-200 transition-colors"
                   >
                     <MdFormatItalic className="text-lg" /> Italic
                   </button>
@@ -599,7 +609,7 @@ const MenuBar = ({ editor }) => {
                     onClick={() =>
                       editor.chain().focus().toggleBlockquote().run()
                     }
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-slate-700 dark:text-slate-200 transition-colors"
                   >
                     <MdFormatQuote className="text-lg" /> Quote
                   </button>
@@ -611,7 +621,7 @@ const MenuBar = ({ editor }) => {
                     onClick={() =>
                       editor.chain().focus().toggleCodeBlock().run()
                     }
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-slate-700 dark:text-slate-200 transition-colors"
                   >
                     <MdCode className="text-lg" /> Code Block
                   </button>
@@ -627,7 +637,7 @@ const MenuBar = ({ editor }) => {
                         .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
                         .run()
                     }
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-slate-700 dark:text-slate-200 transition-colors"
                   >
                     <MdTableChart className="text-lg" /> Table
                   </button>
@@ -637,7 +647,7 @@ const MenuBar = ({ editor }) => {
                 <MenuItem>
                   <button
                     onClick={() => setOpen(true)}
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-slate-700 dark:text-slate-200 transition-colors"
                   >
                     <MdLink className="text-lg" /> Link
                   </button>
@@ -647,17 +657,17 @@ const MenuBar = ({ editor }) => {
                 <MenuItem>
                   <button
                     onClick={() => imageInputRef.current?.click()}
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl text-slate-700 dark:text-slate-200 transition-colors"
                   >
                     <ImageIcon className="text-lg" /> Image
                   </button>
                 </MenuItem>
 
-                <div className="my-1 h-px bg-black/10 dark:bg-white/10 flex md:hidden" />
+                <div className="my-1 h-px bg-slate-200 dark:bg-slate-800 flex md:hidden" />
                 <MenuItem className="flex md:hidden">
                   <button
-                    onClick={() => console.log("deleting")}
-                    className="group flex w-full items-center gap-2 px-4 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-muted/80 dark:hover:bg-gray-800 rounded-md"
+                    onClick={() => editor.commands.clearContent(true)}
+                    className="group flex w-full items-center gap-2 px-3 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl transition-colors"
                   >
                     <Trash className="text-lg" /> Delete
                   </button>
@@ -666,8 +676,12 @@ const MenuBar = ({ editor }) => {
             </Menu>
           </div>
         </div>
-        <button onClick={() => editor.commands.clearContent(true)}>
-          <Trash />
+        <button 
+          onClick={() => editor.commands.clearContent(true)}
+          className="p-2 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 hover:text-red-650 transition-colors flex items-center justify-center"
+          title="Clear content"
+        >
+          <Trash size={18} />
         </button>
       </div>
     </div>
@@ -820,7 +834,7 @@ export default function BlogEditor({
     editorProps: {
       attributes: {
         class:
-          "prose dark:prose-invert max-w-none p-4 min-h-[300px] rounded-b-3xl border-top-none border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 outline-none",
+          "prose dark:prose-invert max-w-none p-6 min-h-[400px] bg-white/50 dark:bg-slate-950/20 outline-none",
       },
     },
     onUpdate: async ({ editor }) => {
@@ -1202,132 +1216,111 @@ export default function BlogEditor({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-700">
       {/* Dedicated Navigation Bar */}
-      <div className="bg-gradient-to-r from-blue-50 via-white to-teal-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 border-b border-blue-200/50 dark:border-gray-700 sticky top-0 z-50 backdrop-blur-sm">
+      <div className="bg-white/70 dark:bg-slate-950/70 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 backdrop-blur-xl transition-all duration-300">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Left Side - Navigation */}
             <div className="flex items-center space-x-2 sm:space-x-4">
               <button
                 onClick={handleBack}
-                className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors p-2 sm:p-0 font-medium"
+                className="inline-flex items-center justify-center p-2 rounded-full border border-slate-200 dark:border-slate-800 text-slate-650 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white bg-white/50 dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-850 hover:scale-105 active:scale-95 transition-all duration-200 font-bold text-xs px-4 py-2 uppercase tracking-wider"
               >
-                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">Back</span>
+                <ArrowLeft className="h-4 w-4 mr-1.5" />
+                <span>Back</span>
               </button>
             </div>
 
             {/* Center - Title */}
-            <div className="flex-1 text-center px-2 sm:px-4">
-              <h1 className="text-sm sm:text-base lg:text-lg font-bold bg-gradient-to-r from-blue-700 via-teal-600 to-blue-700 bg-clip-text text-transparent truncate">
-                <span className="hidden md:inline">Creating Snippet: </span>
-                <span className="md:hidden">Snippet: </span>
+            <div className="flex-1 text-center px-4 max-w-xl">
+              <h1 className="text-sm sm:text-base font-bold bg-gradient-to-r from-blue-600 via-teal-500 to-indigo-600 dark:from-teal-400 dark:via-blue-400 dark:to-indigo-400 bg-clip-text text-transparent truncate flex items-center justify-center gap-1.5">
+                <span className="font-semibold text-slate-400 dark:text-slate-500">Blog:</span>
                 <HoverCard>
                   {title.length > limit ? (
                     <>
                       <HoverCardTrigger asChild>
-                        <span className="cursor-pointer">
+                        <span className="cursor-pointer border-b border-dashed border-slate-350 dark:border-slate-700">
                           {title.slice(0, limit)}...
                         </span>
                       </HoverCardTrigger>
-                      <HoverCardContent className="max-w-xs break-words whitespace-normal p-2">
+                      <HoverCardContent className="max-w-xs break-words whitespace-normal p-3 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-xl">
                         {title}
                       </HoverCardContent>
                     </>
                   ) : (
-                    <span>{title === "" ? "Untitled" : title}</span>
+                    <span>{title === "" ? "Untitled Blog" : title}</span>
                   )}
                 </HoverCard>
               </h1>
             </div>
 
             {/* Right Side - Actions */}
-            <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="flex items-center space-x-3">
               <ModeToggle />
               {/* Tablet and Desktop buttons */}
               <button
                 onClick={handleBackToDashboard}
-                className="inline-flex items-center px-3 lg:px-4 py-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 border border-blue-300 dark:border-gray-600 rounded-3xl hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-200 text-sm lg:text-base font-medium"
+                className="inline-flex items-center px-4 py-2 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800 rounded-full hover:bg-slate-50 dark:hover:bg-slate-850 hover:scale-105 active:scale-95 transition-all duration-200 text-sm font-semibold"
               >
-                <LayoutDashboard className="md:mr-2" />
+                <LayoutDashboard className="h-4 w-4 mr-1.5" />
                 <span className="md:inline hidden">Dashboard</span>
               </button>
 
-              {/* Mobile-only save button */}
               <button
                 onClick={AddBlog}
-                className="sm:hidden p-2 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white rounded-3xl transition-all duration-200 shadow-lg hover:shadow-blue-500/25"
-                title="Save Snippet"
+                className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-bold rounded-full transition-all duration-200 shadow-[0_4px_15px_rgba(59,130,246,0.15)] hover:shadow-[0_4px_25px_rgba(59,130,246,0.35)] hover:scale-105 active:scale-95 text-sm"
               >
-                <Save />
-              </button>
-
-              <button
-                onClick={AddBlog}
-                className="hidden sm:inline-flex items-center px-3 lg:px-4 py-2 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-semibold rounded-3xl transition-all duration-200 shadow-lg hover:shadow-blue-500/25 text-sm lg:text-base"
-              >
-                <Save className="mr-1 lg:mr-2" />
-                <span className="hidden lg:inline">Save Snippet</span>
-                <span className="lg:hidden">Save</span>
+                <Save className="h-4 w-4 mr-1.5" />
+                <span>Save Blog</span>
               </button>
             </div>
           </div>
         </div>
       </div>
-      {/* Pending Expense Alert */}
+      {/* Pending Blog Alert */}
       {unfinishedBlog && !editing && (
-        <div className="container mx-auto justify-center">
+        <div className="container mx-auto px-6 mt-8">
           <Alert
-            variant="warning"
-            className="mt-10 mb-5 bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-gray-800 dark:to-gray-700 border border-yellow-400 dark:border-gray-600 shadow-lg p-4 rounded-3xl flex items-center hover:shadow-xl"
+            className="relative bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/25 dark:border-amber-500/20 shadow-lg p-6 rounded-3xl overflow-hidden"
           >
-            {/* Content that grows to fill space */}
-            <div className="flex flex-col gap-2 flex-grow">
+            {/* Decorative side accent */}
+            <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-orange-500" />
+            <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
-                <AlertTitle className="text-yellow-700 text-sm md:text-lg dark:text-yellow-300 font-bold">
-                  Pending Blog
+                <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                <AlertTitle className="text-amber-800 dark:text-amber-300 font-bold text-base">
+                  Unsaved Blog Draft Found
                 </AlertTitle>
               </div>
-              <div className="flex items-center gap-2">
-                <AlertDescription className="w-full">
-                  <div
-                    className="rounded-xl border border-yellow-300 dark:border-yellow-700 bg-yellow-50 dark:bg-yellow-900/10 
-                       px-4 py-3 text-sm sm:text-base text-justify leading-relaxed text-yellow-800 dark:text-yellow-200 
-                       shadow-sm transition-all"
-                  >
-                    <p className="text-wrap break-words">
-                      You have an unfinished Blog: &quot;
-                      <b className="font-semibold">
-                        {title === ""
-                          ? "Untitled"
-                          : `${title.slice(0, 50)}${
-                              title.length > 50 ? " ..." : ""
-                            }`}
-                      </b>
-                      &quot;. Would you like to continue?
-                    </p>
-                  </div>
+              
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <AlertDescription className="text-slate-650 dark:text-slate-355 text-sm max-w-2xl leading-relaxed">
+                  You have an unfinished blog draft in progress: &quot;
+                  <b className="font-semibold text-slate-800 dark:text-slate-200">
+                    {title === ""
+                      ? "Untitled Blog"
+                      : `${title.slice(0, 70)}${title.length > 70 ? " ..." : ""}`}
+                  </b>
+                  &quot;. Would you like to restore it and continue writing?
                 </AlertDescription>
-                {/* Button on the right */}
-                <div className="flex flex-col md:flex-row items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   <Button
                     variant="outline"
-                    size="lg"
-                    className="accept hover:bg-green-300 hover:text-green-700 dark:hover:text-green-400 [&_svg]:size-6"
+                    size="sm"
+                    className="rounded-full bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/30 hover:bg-emerald-100/50 hover:scale-105 active:scale-95 transition-all text-xs font-bold uppercase tracking-wider px-4 py-2"
                     onClick={() => setUnfinishedBlog(false)}
                   >
-                    <CheckCircle className="h-4 w-4 mr-1" />
+                    <CheckCircle className="h-4 w-4 mr-1.5" />
                     Continue
                   </Button>
                   <Button
                     variant="outline"
-                    size="lg"
-                    className="del3 hover:bg-red-300 hover:text-red-500 [&_svg]:size-6"
+                    size="sm"
+                    className="rounded-full bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/30 hover:bg-rose-100/50 hover:scale-105 active:scale-95 transition-all text-xs font-bold uppercase tracking-wider px-4 py-2"
                     onClick={removePendingBlogData}
                   >
-                    <XCircle className="h-4 w-4 mr-1" />
+                    <XCircle className="h-4 w-4 mr-1.5" />
                     Dismiss
                   </Button>
                 </div>
@@ -1337,351 +1330,362 @@ export default function BlogEditor({
         </div>
       )}
 
-      <div className="p-6">
-        <div className="mt-10 w-full bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-[#111827] dark:via-[#0f172a] dark:to-[#1e1b4b] border-2 border-blue-400 dark:border-blue-500 rounded-2xl p-6 shadow-md mb-8 transition-all duration-300">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            {/* Title & subtitle */}
-            <div>
-              <h1 className="text-4xl p-1 font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-cyan-400 to-purple-500 bg-clip-text text-transparent">
+      <div className="p-6 md:p-8 max-w-[1400px] mx-auto space-y-8">
+        {/* Title & Banner */}
+        <div className="relative bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl border border-slate-200 dark:border-slate-800/80 rounded-[2rem] p-6 sm:p-8 shadow-[0_15px_40px_rgba(0,0,0,0.02)] overflow-hidden">
+          {/* Ambient Glow in Banner */}
+          <div className="absolute -top-12 -right-12 w-40 h-40 bg-indigo-500/10 dark:bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6 z-10">
+            <div className="space-y-2">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-100/50 dark:border-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                Editor Mode
+              </span>
+              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-none">
                 {editing ? "Edit Your Blog" : "Create a New Blog"}
               </h1>
-              <p className="mt-1 text-sm text-gray-700 dark:text-gray-300 max-w-lg">
-                Start writing your thoughts, stories, or tutorials. This is your
-                creative space.
-              </p>
-              <p className="text-xs mt-1 italic text-blue-500 dark:text-cyan-400">
-                &quot;Writing is the painting of the voice&quot;
+              <p className="text-sm text-slate-500 dark:text-slate-400 max-w-xl font-medium">
+                Start writing your thoughts, stories, or tutorials. This is your creative space to build, design, and share.
               </p>
             </div>
 
-            {/* Action buttons */}
-            <div className="flex flex-wrap gap-3">
+            {/* Clear Button */}
+            <div className="flex items-center gap-3 shrink-0">
               <button
-                // onClick={handleClear}
-                className="px-4 py-2 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-[#1b1b1b] border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm hover:bg-gray-200 dark:hover:bg-[#2a2a2a] transition-all"
-                onClick={() => {
-                  clearData;
-                }}
+                className="px-5 py-2.5 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 hover:text-rose-600 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100 dark:border-rose-900/30 rounded-full shadow-sm hover:bg-rose-100/50 hover:scale-105 active:scale-95 transition-all"
+                onClick={clearData}
               >
-                <Trash2 />
-                Clear
+                <Trash2 className="h-4 w-4" />
+                Clear Draft
               </button>
             </div>
           </div>
         </div>
-        <div>
-          <Label
-            htmlFor="blog-title"
-            className="text-lg font-semibold text-blue-100 bg-gradient-to-r from-blue-500 via-indigo-400 to-purple-500 px-3 py-1 rounded-full shadow-md transform -translate-y-12 -translate-x-1/5 transition-all duration-300 ease-in-out z-20 cursor-pointer hover:scale-105"
-          >
-            Blog Title
-          </Label>
-          <Input
-            type="text"
-            id="blog-title"
-            className={`my-4 w-full px-4 py-2 ${
-              errors.title
-                ? "input-error-field focus-visible:ring-red-500 dark:focus-visible:ring-offset-gray-800 dark:focus-visible:ring-red-400 focus-visible:ring-[4px]"
-                : "input-field focus-visible:ring-blue-500 dark:focus-visible:ring-offset-gray-800 dark:focus-visible:ring-blue-400 focus-visible:ring-[4px]"
-            }`}
-            placeholder="Enter blog title"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-              setErrors((prev) => ({ ...prev, title: "" }));
-              handleInputChange("title", e.target.value);
-            }}
-          />
-        </div>
-        <div>
-          <Label
-            htmlFor="blog-description"
-            className="text-lg font-semibold text-blue-100 bg-gradient-to-r from-blue-500 via-indigo-400 to-purple-500 px-3 py-1 rounded-full shadow-md transform -translate-y-12 -translate-x-1/5 transition-all duration-300 ease-in-out z-20 cursor-pointer hover:scale-105"
-          >
-            Blog Description
-          </Label>
-          <Textarea
-            type="text"
-            id="blog-description"
-            className={`my-4 w-full px-4 py-2 ${
-              errors.description
-                ? "input-error-field focus-visible:ring-red-500 dark:focus-visible:ring-offset-gray-800 dark:focus-visible:ring-red-400 focus-visible:ring-[4px]"
-                : "input-field focus-visible:ring-blue-500 dark:focus-visible:ring-offset-gray-800 dark:focus-visible:ring-blue-400 focus-visible:ring-[4px]"
-            }`}
-            placeholder="Enter a brief description of your blog..."
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-              setErrors((prev) => ({ ...prev, description: "" }));
-              handleInputChange("description", e.target.value);
-            }}
-          />
-        </div>
 
-        {editCoverImage &&
-        editBlogCoverImageURL &&
-        editBlogCoverImageURL !== "" ? (
-          <div className="mb-6">
+        {/* Form Fields Card Container */}
+        <div className="space-y-8 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl border border-slate-200 dark:border-slate-800/80 rounded-[2.5rem] p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.01)]">
+          {/* Blog Title */}
+          <div className="space-y-3">
             <Label
-              htmlFor="blog-cover-image"
-              className="text-lg font-semibold text-blue-100 bg-gradient-to-r from-blue-500 via-indigo-400 to-purple-500 px-3 py-1 rounded-full shadow-md transform -translate-y-12 -translate-x-1/5 transition-all duration-300 ease-in-out z-20 cursor-pointer hover:scale-105"
+              htmlFor="blog-title"
+              className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-950/50 border border-blue-100/30 dark:border-blue-900/20 px-3.5 py-1.5 rounded-full shadow-sm cursor-pointer hover:scale-105 transition-transform"
             >
-              Blog Cover Image
+              Blog Title
             </Label>
-            <div className="relative flex flex-col items-center gap-6 mt-4 p-6 border-2 border-dashed border-blue-300 rounded-2xl bg-gradient-to-br from-cyan-50 to-indigo-100 shadow-lg hover:shadow-xl transition-all duration-300">
-              {/* Image Block */}
-              <div className="flex-1 max-w-md overflow-hidden rounded-xl shadow-md transition-transform duration-300 hover:scale-105">
-                <NextImage
-                  src={editBlogCoverImageURL}
-                  alt="Blog Cover"
-                  width={500}
-                  height={500}
-                  className="w-full h-[300px] object-cover rounded-xl"
-                  draggable={false}
+            <Input
+              type="text"
+              id="blog-title"
+              className={`w-full px-5 py-6 rounded-2xl text-base shadow-sm border font-medium transition-all duration-300 bg-white/50 dark:bg-slate-900/50 ${
+                errors.title
+                  ? "border-red-500 dark:border-red-700/80 focus-visible:ring-4 focus-visible:ring-red-500/10 focus-visible:border-red-500"
+                  : "border-slate-200 dark:border-slate-800 focus-visible:ring-4 focus-visible:ring-blue-500/10 focus-visible:border-blue-500 dark:focus-visible:border-teal-500 dark:focus-visible:ring-teal-500/10"
+              }`}
+              placeholder="Enter blog title"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                setErrors((prev) => ({ ...prev, title: "" }));
+                handleInputChange("title", e.target.value);
+              }}
+            />
+          </div>
+
+          {/* Blog Description */}
+          <div className="space-y-3">
+            <Label
+              htmlFor="blog-description"
+              className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-950/50 border border-blue-100/30 dark:border-blue-900/20 px-3.5 py-1.5 rounded-full shadow-sm cursor-pointer hover:scale-105 transition-transform"
+            >
+              Blog Description
+            </Label>
+            <Textarea
+              id="blog-description"
+              className={`w-full px-5 py-4 rounded-2xl text-sm leading-relaxed shadow-sm border font-medium transition-all duration-300 min-h-[100px] bg-white/50 dark:bg-slate-900/50 ${
+                errors.description
+                  ? "border-red-500 dark:border-red-700/80 focus-visible:ring-4 focus-visible:ring-red-500/10 focus-visible:border-red-500"
+                  : "border-slate-200 dark:border-slate-800 focus-visible:ring-4 focus-visible:ring-blue-500/10 focus-visible:border-blue-500 dark:focus-visible:border-teal-500 dark:focus-visible:ring-teal-500/10"
+              }`}
+              placeholder="Enter a brief description of your blog..."
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                setErrors((prev) => ({ ...prev, description: "" }));
+                handleInputChange("description", e.target.value);
+              }}
+            />
+          </div>
+
+            {editCoverImage &&
+          editBlogCoverImageURL &&
+          editBlogCoverImageURL !== "" ? (
+            <div className="space-y-3">
+              <Label
+                htmlFor="blog-cover-image"
+                className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-950/50 border border-blue-100/30 dark:border-blue-900/20 px-3.5 py-1.5 rounded-full shadow-sm cursor-pointer hover:scale-105 transition-transform"
+              >
+                Blog Cover Image
+              </Label>
+              <div className="relative flex flex-col items-center gap-6 mt-2 p-6 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl bg-slate-50/50 dark:bg-slate-900/50 shadow-sm hover:shadow-md transition-all duration-300">
+                {/* Image Block */}
+                <div className="relative max-w-md w-full overflow-hidden rounded-2xl shadow-lg transition-transform duration-500 hover:scale-[1.02]">
+                  <NextImage
+                    src={editBlogCoverImageURL}
+                    alt="Blog Cover"
+                    width={500}
+                    height={500}
+                    className="w-full h-[250px] object-cover rounded-2xl"
+                    draggable={false}
+                  />
+                </div>
+
+                {/* Info and Actions - stacked below image for better alignment */}
+                <div className="flex flex-col gap-3 justify-center items-center text-center">
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                    Cover Image Uploaded
+                  </h3>
+                  <button
+                    onClick={() => {
+                      setEditCoverImage(false);
+                    }}
+                    className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-350 font-bold px-6 py-2.5 rounded-full shadow-md hover:scale-105 active:scale-95 transition-all text-xs uppercase tracking-wider"
+                  >
+                    Reupload Image
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <ImageUpload
+              uploadData={uploadData}
+              setUploadData={setUploadData}
+              fileId={fileId}
+              setFileId={setFileId}
+              handleInputChange={handleInputChange}
+            />
+          )}
+
+          {/* Categories  */}
+          <div className="space-y-3">
+            <Label
+              htmlFor="blog-category"
+              className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-950/50 border border-blue-100/30 dark:border-blue-900/20 px-3.5 py-1.5 rounded-full shadow-sm cursor-pointer hover:scale-105 transition-transform"
+            >
+              Blog Category
+            </Label>
+            <Select
+              value={category.toLowerCase()}
+              onValueChange={(e) => {
+                setCategory(e);
+                setSelectedSubCategories([]);
+                handleInputChange("category", e); // <- Add this
+                setErrors((prev) => ({ ...prev, category: "" }));
+                handleInputChange("subcategories", []); // Reset subcategories too
+              }}
+            >
+              <SelectTrigger
+                id="blog-category"
+                className="w-full px-5 py-6 rounded-2xl text-sm shadow-sm border font-medium transition-all duration-300 bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 dark:focus:ring-teal-500/10 dark:focus:border-teal-500"
+              >
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent className="blog-select-content mt-2 border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl rounded-2xl shadow-xl">
+                <ScrollArea className="max-h-60 overflow-auto">
+                  {blogCategories.map((category, index) => (
+                    <SelectItem
+                      key={index}
+                      value={category.toLowerCase()}
+                      className="blog-select-item py-2.5 px-4 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-850 rounded-xl"
+                    >
+                      {category}
+                    </SelectItem>
+                  ))}
+                </ScrollArea>
+              </SelectContent>
+            </Select>
+
+            {/* Sub-Categories (Only Show When Category is Selected) */}
+            {category && blogSubCategoriesList[category.toLowerCase()] && (
+              <div
+                className={`relative max-h-[220px] mt-3 overflow-y-auto p-5 shadow-sm rounded-2xl border transition-all duration-300 bg-white/30 dark:bg-slate-900/30 ${
+                  errors.subcategories
+                    ? "border-red-500 dark:border-red-700/80 bg-red-50/5 dark:bg-red-950/5"
+                    : "border-slate-200 dark:border-slate-800"
+                }`}
+              >
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                  {/* Title & Selected Badge */}
+                  <div className="flex items-center gap-2">
+                    <label
+                      className={`${
+                        errors.subcategories
+                          ? "text-red-505 dark:text-red-400"
+                          : "text-slate-700 dark:text-slate-300"
+                      } font-bold text-xs uppercase tracking-wider`}
+                    >
+                      Sub-Categories (
+                      {
+                        new Set(
+                          blogSubCategoriesList[category.toLowerCase()] || [],
+                        ).size
+                      }
+                      )
+                    </label>
+
+                    {/* Show Selected Count Badge */}
+                    {selectedCount > 0 && (
+                      <Badge className="border-0 bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">
+                        Selected: {selectedCount}
+                      </Badge>
+                    )}
+                  </div>
+                  <div>
+                    {/* Clear Button */}
+                    {selectedCount > 0 && (
+                      <button
+                        onClick={() => {
+                          setSelectedSubCategories([]);
+                          handleInputChange("subcategories", []); // <- Clear in localStorage too
+                        }}
+                        className="text-xs font-bold uppercase tracking-wider text-rose-500 hover:text-rose-600 px-3 py-1.5 rounded-full bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/30 dark:border-rose-900/20 transition-colors"
+                      >
+                        Clear Selection
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Subcategories List */}
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {[
+                    ...new Set(
+                      blogSubCategoriesList[category.toLowerCase()] || [],
+                    ),
+                  ].map((subCategory) => {
+                    const isSelected = Array.isArray(selectedSubCategories)
+                      ? selectedSubCategories.includes(subCategory)
+                      : selectedSubCategories?.split(", ").includes(subCategory);
+
+                    return (
+                      <Badge
+                        key={subCategory}
+                        onClick={() => {
+                          setSelectedSubCategories((prev) => {
+                            let subCategoriesArray = Array.isArray(prev)
+                              ? [...prev]
+                              : prev
+                                ? prev.split(", ")
+                                : [];
+
+                            if (isSelected) {
+                              subCategoriesArray = subCategoriesArray.filter(
+                                (c) => c !== subCategory,
+                              );
+                            } else {
+                              subCategoriesArray.push(subCategory);
+                            }
+
+                            handleInputChange(
+                              "subcategories",
+                              subCategoriesArray,
+                            ); // pass array directly
+                            return subCategoriesArray;
+                          });
+                          setErrors((prev) => ({ ...prev, subcategories: "" }));
+                        }}
+                        className={`border rounded-full text-xs font-semibold cursor-pointer px-3 py-1.5 transition-all duration-205 shadow-sm ${
+                          isSelected
+                            ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600 shadow-md shadow-blue-500/10"
+                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-850"
+                        }`}
+                      >
+                        {subCategory}
+                      </Badge>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Tags Section */}
+          <div className="space-y-3">
+            <Label
+              htmlFor="tag-input"
+              className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-950/50 border border-blue-100/30 dark:border-blue-900/20 px-3.5 py-1.5 rounded-full shadow-sm cursor-pointer hover:scale-105 transition-transform"
+            >
+              Blog Tags
+            </Label>
+
+            {/* Input container with badges inside */}
+            <div
+              className="mt-2 w-full relative flex items-start border border-slate-200 dark:border-slate-800 rounded-2xl min-h-[52px] bg-white/50 dark:bg-slate-900/50 focus-within:ring-4 focus-within:ring-blue-500/10 dark:focus-within:ring-teal-500/10 focus-within:border-blue-500 dark:focus-within:border-teal-500 transition-all duration-300"
+              onClick={() => document.getElementById("tag-input")?.focus()}
+            >
+              {/* Badges inside input field */}
+              <div className="flex flex-wrap gap-2 flex-grow p-2.5 pr-20">
+                {tags.map((t) => (
+                  <Badge
+                    key={t}
+                    className="inline-flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100/50 dark:border-indigo-900/30 text-indigo-700 dark:text-indigo-400 px-3 py-1 rounded-full text-xs font-semibold cursor-pointer shadow-sm"
+                  >
+                    {t}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeTag(t);
+                      }}
+                      className="text-slate-400 hover:text-red-500 transition-colors"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </Badge>
+                ))}
+
+                {/* Input field */}
+                <input
+                  id="tag-input"
+                  type="text"
+                  value={tag}
+                  onChange={(e) => setTag(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addTag();
+                    }
+                  }}
+                  placeholder={tags.length === 0 ? "Add tags (press Enter)" : ""}
+                  className="flex-grow bg-transparent border-none outline-none p-1 text-sm text-slate-800 dark:text-white min-w-[150px]"
                 />
               </div>
 
-              {/* Info and Actions - stacked below image for better alignment */}
-              <div className="flex flex-col gap-3 justify-center items-center w-full md:w-auto md:items-start text-center md:text-left">
-                <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-                  Cover Image Uploaded
-                </h3>
-                <Button
-                  onClick={() => {
-                    setEditCoverImage(false);
+              {/* Right: Clear Button */}
+              {tags.length > 0 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setTags([]);
                   }}
-                  className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-white font-medium px-5 py-2 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-full bg-rose-50/50 dark:bg-rose-950/20 text-rose-500 hover:text-rose-600 hover:bg-rose-100/50 border border-rose-100/30 dark:border-rose-900/20 text-[10px] font-bold uppercase tracking-wider shadow-sm transition-all"
                 >
-                  Reupload Image
-                </Button>
-              </div>
+                  Clear
+                </button>
+              )}
             </div>
           </div>
-        ) : (
-          <ImageUpload
-            uploadData={uploadData}
-            setUploadData={setUploadData}
-            fileId={fileId}
-            setFileId={setFileId}
-            handleInputChange={handleInputChange}
-          />
-        )}
 
-        {/* Categories  */}
-        <div className="mt-1 space-y-4 mb-10">
-          <Label
-            htmlFor="blog-category"
-            className="text-lg font-semibold text-blue-100 bg-gradient-to-r from-blue-500 via-indigo-400 to-purple-500 px-3 py-1 rounded-full shadow-md transform -translate-y-12 -translate-x-1/5 transition-all duration-300 ease-in-out z-20 cursor-pointer hover:scale-105"
-          >
-            Blog Category
-          </Label>
-          <Select
-            value={category.toLowerCase()}
-            onValueChange={(e) => {
-              setCategory(e);
-              setSelectedSubCategories([]);
-              handleInputChange("category", e); // <- Add this
-              setErrors((prev) => ({ ...prev, category: "" }));
-              handleInputChange("subcategories", []); // Reset subcategories too
-            }}
-          >
-            <SelectTrigger
-              id="blog-category"
-              className={`
-                        mt-1 w-full rounded-lg px-3 py-2 border transition-colors input-field focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-[3px]
-                      `}
-            >
-              <SelectValue placeholder="Select a category" />
-            </SelectTrigger>
-            <SelectContent className="blog-select-content mt-2">
-              <ScrollArea className="max-h-60 overflow-auto">
-                {blogCategories.map((category, index) => (
-                  <SelectItem
-                    key={index}
-                    value={category.toLowerCase()}
-                    className="blog-select-item"
-                  >
-                    {category}
-                  </SelectItem>
-                ))}
-              </ScrollArea>
-            </SelectContent>
-          </Select>
-
-          {/* Sub-Categories (Only Show When Category is Selected) */}
-          {category && blogSubCategoriesList[category.toLowerCase()] && (
-            <div
-              className={`relative max-h-[200px] mt-2 overflow-y-auto p-3 shadow-sm rounded-xl 
-              ${
-                errors.subcategories
-                  ? "bg-gradient-to-r from-red-50 to-red-100 dark:from-red-900 dark:to-red-950 border-[2px] border-red-500 dark:border-red-700 transition-all"
-                  : "bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-900 border-[2px] border-blue-500 dark:border-blue-900 transition-all"
-              }`}
-            >
-              <div className="flex flex-col md:flex-row items-center justify-between">
-                {/* Title & Selected Badge */}
-                <div className="flex items-center gap-2">
-                  <label
-                    className={`${errors.subcategories ? "text-red-600 dark:text-red-400" : "blog-text1"} font-semibold`}
-                  >
-                    Sub-Categories (
-                    {
-                      new Set(
-                        blogSubCategoriesList[category.toLowerCase()] || [],
-                      ).size
-                    }
-                    )
-                  </label>
-
-                  {/* Show Selected Count Badge */}
-                  {selectedCount > 0 && (
-                    <Badge className="border-0 bg-gradient-to-r from-green-400 to-green-600 text-white px-2 py-1 rounded-full text-xs dark:from-green-500 dark:to-green-700 ">
-                      Selected: {selectedCount}
-                    </Badge>
-                  )}
-                </div>
-                <div>
-                  {/* Clear Button */}
-                  {selectedCount > 0 && (
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setSelectedSubCategories([]);
-                        handleInputChange("subcategories", []); // <- Clear in localStorage too
-                      }}
-                      className="text-sm rounded-full text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 dark:border-gray-300"
-                      size="sm"
-                    >
-                      Clear Selection
-                    </Button>
-                  )}
-                </div>
-              </div>
-
-              {/* Subcategories List */}
-              <div className="flex flex-wrap gap-2 mt-3">
-                {[
-                  ...new Set(
-                    blogSubCategoriesList[category.toLowerCase()] || [],
-                  ),
-                ].map((subCategory) => {
-                  const isSelected = Array.isArray(selectedSubCategories)
-                    ? selectedSubCategories.includes(subCategory)
-                    : selectedSubCategories?.split(", ").includes(subCategory);
-
-                  return (
-                    <Badge
-                      key={subCategory}
-                      onClick={() => {
-                        setSelectedSubCategories((prev) => {
-                          let subCategoriesArray = Array.isArray(prev)
-                            ? [...prev]
-                            : prev
-                              ? prev.split(", ")
-                              : [];
-
-                          if (isSelected) {
-                            subCategoriesArray = subCategoriesArray.filter(
-                              (c) => c !== subCategory,
-                            );
-                          } else {
-                            subCategoriesArray.push(subCategory);
-                          }
-
-                          handleInputChange(
-                            "subcategories",
-                            subCategoriesArray,
-                          ); // pass array directly
-                          return subCategoriesArray;
-                        });
-                        setErrors((prev) => ({ ...prev, subcategories: "" }));
-                      }}
-                      className={`border-0 rounded-full text-sm cursor-pointer px-3 py-1 transition-all
-                  ${
-                    isSelected
-                      ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
-                  }`}
-                    >
-                      {subCategory}
-                    </Badge>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div>
-          <Label
-            htmlFor="tag-input"
-            className="text-lg font-semibold text-blue-100 bg-gradient-to-r from-blue-500 via-indigo-400 to-purple-500 px-3 py-1 rounded-full shadow-md transform -translate-y-12 -translate-x-1/5 transition-all duration-300 ease-in-out z-20 cursor-pointer hover:scale-105"
-          >
-            Blog Category
-          </Label>
-
-          {/* Input container with badges inside */}
-          <div
-            className="mt-4 w-full relative flex items-start border rounded-3xl min-h-[42px] input-field focus-within:ring-blue-500 dark:focus-within:ring-offset-gray-800 dark:focus-within:ring-blue-400 focus-within:ring-[4px]"
-            onClick={() => document.getElementById("tag-input")?.focus()}
-          >
-            {/* Badges inside input field */}
-            <div className="flex flex-wrap gap-2 flex-grow p-2 pr-20">
-              {tags.map((t) => (
-                <Badge
-                  key={t}
-                  className="inline-flex items-center gap-1 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 px-2 py-1 rounded-3xl text-sm dark:bg-indigo-900 hover:dark:bg-indigo-700 dark:text-indigo-100 cursor-pointer"
-                >
-                  {t}
-                  <button
-                    type="button"
-                    onClick={() => removeTag(t)}
-                    className="text-indigo-500 hover:text-red-600 focus:outline-none dark:text-indigo-300 dark:hover:text-red-600"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </Badge>
-              ))}
-
-              {/* Input field */}
-              <input
-                id="tag-input"
-                type="text"
-                value={tag}
-                onChange={(e) => setTag(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addTag();
-                  }
-                }}
-                placeholder={tags.length === 0 ? "Add a tag" : ""}
-                className="flex-grow bg-transparent border-none outline-none p-1 text-gray-700 dark:text-white min-w-[120px]"
+          {/* Editor Section */}
+          <div className="space-y-3 pt-4">
+            <Label className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-950/50 border border-blue-100/30 dark:border-blue-900/20 px-3.5 py-1.5 rounded-full shadow-sm cursor-pointer hover:scale-105 transition-transform">
+              Blog Editor
+            </Label>
+            <div className="rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm bg-white dark:bg-slate-900/30">
+              <MenuBar editor={editor} />
+              <EditorContent
+                editor={editor}
+                className="overflow-y-auto max-h-[600px] scrollbar-thin"
               />
             </div>
-
-            {/* Right: Clear Button */}
-            {tags.length > 0 && (
-              <Button
-                onClick={() => setTags([])}
-                className="absolute right-3 top-1/2 -translate-y-1/2 del3"
-              >
-                Clear
-              </Button>
-            )}
-          </div>
-        </div>
-
-        <div className="mt-5 space-y-5">
-          <Label className="text-lg font-semibold text-blue-100 bg-gradient-to-r from-blue-500 via-indigo-400 to-purple-500 px-3 py-1 rounded-full shadow-md transform -translate-y-12 -translate-x-1/5 transition-all duration-300 ease-in-out z-20 cursor-pointer hover:scale-105">
-            Blog Editor
-          </Label>
-          <div>
-            <MenuBar editor={editor} />
-            <EditorContent
-              editor={editor}
-              className="overflow-y-auto max-h-[500px]"
-            />
           </div>
         </div>
       </div>
