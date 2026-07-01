@@ -354,8 +354,7 @@ export default function Page() {
             onClose={() => setIsShareOpen(false)}
             title={blogData.title}
             description={blogData.description}
-            url={`https://yourdomain.com/blogpost/${blogId}`} // replace with your actual domain
-            // url={"https://www.google.com"} // placeholder URL, replace with actual blog URL
+            url={`${typeof window !== "undefined" ? window.location.origin : ""}/blogpost/${blogId}`}
           />
 
           <NotSignedIn

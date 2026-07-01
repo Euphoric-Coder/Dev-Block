@@ -84,18 +84,36 @@ export default function BlogLike({
     <button
       onClick={toggleLike}
       className={cn(
-        "flex items-center gap-1 transition-colors",
-        liked ? "text-rose-600" : "hover:text-rose-400",
-        showIconOnly &&
-          `${liked ? "text-rose-600" : "hover:text-rose-400 text-white"} p-2 bg-white/30 backdrop-blur-sm rounded-full shadow-lg`,
-        showIconOnly &&
-          listView &&
-          `${liked ? "text-rose-600" : "hover:text-rose-400 text-black dark:text-white"} p-2 bg-white hover:bg-white/80 dark:bg-white/30 dark:hover:bg-white/40 backdrop-blur-sm rounded-full shadow-lg`
+        "flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-90 shadow-md",
+        showIconOnly
+          ? listView
+            ? `p-2.5 rounded-full backdrop-blur-md border ${
+                liked
+                  ? "bg-rose-500/10 border-rose-500/30 text-rose-500"
+                  : "bg-white/80 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 text-slate-655 dark:text-slate-400 hover:text-rose-500"
+              }`
+            : `p-2.5 rounded-full backdrop-blur-md border ${
+                liked
+                  ? "bg-rose-500/20 border-rose-500/40 text-rose-450"
+                  : "bg-slate-950/40 border-white/10 text-white hover:text-rose-400"
+              }`
+          : cn(
+              "px-3.5 py-2 rounded-full border text-[10px] font-bold uppercase tracking-wider shadow-sm gap-1.5",
+              liked
+                ? "bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-400"
+                : "bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-850 text-slate-605 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-850"
+            )
       )}
       aria-pressed={liked}
     >
-      <Heart className={cn("h-4 w-4", liked && "fill-current")} />
-      {!showIconOnly && <span className="text-sm">{likes}</span>}
+      <Heart
+        className={cn("h-3.5 w-3.5 transition-all duration-300", liked && "scale-110 fill-current")}
+      />
+      {!showIconOnly && (
+        <span className="font-bold">
+          {likes}
+        </span>
+      )}
     </button>
   );
 }

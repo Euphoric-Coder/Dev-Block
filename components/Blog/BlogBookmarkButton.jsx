@@ -71,22 +71,34 @@ export default function BlogBookmark({
     <button
       onClick={toggleBookmark}
       className={cn(
-        "flex items-center gap-1 transition-colors",
-        bookmarked ? "text-yellow-500" : "hover:text-amber-500",
-        showIconOnly &&
-          `${bookmarked ? "text-yellow-500" : "hover:text-amber-500 text-white"} p-2 bg-white/30 backdrop-blur-sm rounded-full shadow-lg`,
-        showIconOnly &&
-          listView &&
-          `${bookmarked ? "text-yellow-500" : "hover:text-amber-500 text-black dark:text-white"} p-2 bg-white hover:bg-white/80 dark:bg-white/30 dark:hover:bg-white/40 backdrop-blur-sm rounded-full shadow-lg`
+        "flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-90 shadow-md",
+        showIconOnly
+          ? listView
+            ? `p-2.5 rounded-full backdrop-blur-md border ${
+                bookmarked
+                  ? "bg-amber-500/10 border-amber-500/30 text-amber-500"
+                  : "bg-white/80 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-amber-500"
+              }`
+            : `p-2.5 rounded-full backdrop-blur-md border ${
+                bookmarked
+                  ? "bg-amber-500/20 border-amber-500/40 text-amber-400"
+                  : "bg-slate-950/40 border-white/10 text-white hover:text-amber-400"
+              }`
+          : cn(
+              "px-3.5 py-2 rounded-full border text-[10px] font-bold uppercase tracking-wider shadow-sm gap-1.5",
+              bookmarked
+                ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400"
+                : "bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 text-slate-605 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-850"
+            )
       )}
       aria-pressed={bookmarked}
     >
       <Bookmark
-        className="h-4 w-4"
+        className={cn("h-3.5 w-3.5 transition-all duration-300", bookmarked && "scale-110")}
         fill={bookmarked ? "currentColor" : "none"}
       />
       {!showIconOnly && (
-        <span className="text-sm">
+        <span>
           {bookmarked ? "Bookmarked" : "Bookmark"}
         </span>
       )}

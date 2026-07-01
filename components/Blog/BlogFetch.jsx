@@ -762,8 +762,7 @@ const BlogFetch = ({ blogs, refreshData }) => {
           }}
           title={individualBlog.title}
           description={individualBlog.description}
-          url={`https://yourdomain.com/blogpost/${individualBlog.id}`} // replace with your actual domain
-          // url={"https://www.google.com"} // placeholder URL, replace with actual blog URL
+          url={`${typeof window !== "undefined" ? window.location.origin : ""}/blogpost/${individualBlog.id}`}
         />
       )}
     </div>

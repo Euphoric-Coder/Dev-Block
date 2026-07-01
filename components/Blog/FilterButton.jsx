@@ -44,67 +44,72 @@ const FilterButton = ({
       >
         <DialogTrigger asChild>
           <Button
-            className={`flex items-center gap-2 px-4 py-2 rounded-3xl transition-colors ${
+            className={cn(
+              "flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-bold uppercase tracking-wider transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm",
               filterCount > 0
-                ? "bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white hover:from-purple-600 hover:via-purple-700 hover:to-purple-800 dark:from-violet-700 dark:via-violet-800 dark:to-violet-900 dark:text-white dark:hover:from-violet-800 dark:hover:via-violet-900 dark:hover:to-violet-950"
-                : "bg-gradient-to-r from-purple-100 via-purple-200 to-purple-300 text-purple-700 hover:from-purple-200 hover:via-purple-300 hover:to-purple-400 dark:from-violet-900 dark:via-violet-950 dark:to-purple-900 dark:text-violet-300 dark:hover:from-violet-800 dark:hover:via-violet-900 dark:hover:to-purple-950"
-            }`}
+                ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600 shadow-md shadow-blue-500/10"
+                : "bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-350 hover:bg-slate-50 dark:hover:bg-slate-850 hover:text-slate-900 dark:hover:text-white"
+            )}
           >
-            <Filter size={20} />
-            {filterCount > 0 ? `Filters (${filterCount})` : "Filter"}
+            <Filter size={14} className="mr-0.5" />
+            <span>Filters</span>
+            {filterCount > 0 && (
+              <span className="flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-white dark:bg-slate-900 text-[10px] font-black text-blue-600 dark:text-teal-400 border border-blue-100 dark:border-slate-800/80 shadow-sm ml-0.5 animate-pulse">
+                {filterCount}
+              </span>
+            )}
           </Button>
         </DialogTrigger>
-        <DialogContent className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-white via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-8 rounded-3xl shadow-[0_0_40px_rgba(0,200,255,0.3)] w-[95%] max-w-2xl max-h-[80vh] md:max-h-[90vh] overflow-y-auto">
-          {/* Background Effects */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-10 -left-10 w-60 h-60 bg-gradient-radial from-purple-400 via-blue-400 to-transparent dark:from-indigo-800 dark:via-blue-800 dark:to-gray-800 opacity-25 blur-3xl animate-spin-slow"></div>
-            <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-radial from-teal-300 via-blue-300 to-transparent dark:from-blue-900 dark:via-teal-800 dark:to-gray-800 opacity-30 blur-[120px]"></div>
+        <DialogContent className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 rounded-[2.5rem] shadow-[0_30px_70px_rgba(0,0,0,0.12)] w-[95%] max-w-2xl max-h-[85vh] overflow-y-auto scrollbar-thin z-50">
+          {/* Background Ambient Glows */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[2.5rem]">
+            <div className="absolute -top-20 -left-20 w-80 h-80 bg-indigo-500/10 dark:bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-teal-500/10 dark:bg-teal-500/15 rounded-full blur-3xl pointer-events-none" />
           </div>
+
           {/* Filter Heading */}
-          <DialogHeader>
-            <DialogTitle className="flex gap-2 items-center text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 via-purple-500 to-pink-500 dark:from-blue-400 dark:via-indigo-400 dark:to-teal-400">
-              Blog Filter
+          <DialogHeader className="relative z-10 mb-6">
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-100/50 dark:border-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-bold uppercase tracking-wider shadow-sm w-fit mb-2">
+              Filter Options
+            </span>
+            <DialogTitle className="text-2xl font-black text-slate-900 dark:text-white leading-none">
+              Blog Filters
             </DialogTitle>
-            <DialogDescription asChild>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Select filters to apply to your transactions.
-              </p>
+            <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
+              Apply criteria below to refine the list of published posts.
             </DialogDescription>
           </DialogHeader>
+
           {/* Filter Options */}
-          <div className="space-y-6">
+          <div className="space-y-6 relative z-10">
             {/* Sort Blogs By */}
-            <div
-              className="relative max-h-[300px] p-3 shadow-sm rounded-xl border-2 
-             bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-900
-             border-purple-400 dark:border-blue-800 transition-all"
-            >
-              <div className="flex items-center justify-between">
+            <div className="relative p-5 shadow-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 transition-all duration-300">
+              <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
-                  <label className="budg-text1">Sort Blogs By</label>
-                  <Badge className="border-0 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-2 py-1 rounded-full text-xs dark:from-yellow-500 dark:to-yellow-600">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-350">
+                    Sort Blogs By
+                  </label>
+                  <Badge className="border-0 bg-amber-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">
                     {tempFilters.oldestBlog ? "Oldest First" : "Newest First"}
                   </Badge>
                 </div>
 
                 {tempFilters.oldestBlog && (
-                  <Button
-                    variant="outline"
+                  <button
                     onClick={() =>
                       setTempFilters((prev) => ({
                         ...prev,
                         oldestBlog: false,
                       }))
                     }
-                    className="del2"
-                    size="sm"
+                    className="text-[10px] font-bold uppercase tracking-wider text-rose-500 hover:text-rose-600 px-2.5 py-1 rounded-full bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/30 dark:border-rose-900/20 transition-all"
                   >
-                    Reset Sort
-                  </Button>
+                    Reset
+                  </button>
                 )}
               </div>
 
-              <div className="mt-2 flex flex-wrap gap-3">
+              <div className="mt-4 flex flex-wrap gap-2">
                 <Badge
                   onClick={() =>
                     setTempFilters((prev) => ({
@@ -112,13 +117,13 @@ const FilterButton = ({
                       oldestBlog: true,
                     }))
                   }
-                  className={`px-3 py-1 rounded-full text-sm font-bold cursor-pointer transition-all ${
+                  className={`border rounded-full text-xs font-semibold cursor-pointer px-3 py-1.5 transition-all duration-200 shadow-sm ${
                     tempFilters.oldestBlog
-                      ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white dark:from-blue-600 dark:to-purple-700"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                      ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600 shadow-md shadow-blue-500/10"
+                      : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-350 dark:border-slate-800 dark:hover:bg-slate-850"
                   }`}
                 >
-                  Oldest
+                  Oldest First
                 </Badge>
                 <Badge
                   onClick={() =>
@@ -127,31 +132,34 @@ const FilterButton = ({
                       oldestBlog: false,
                     }))
                   }
-                  className={`px-3 py-1 rounded-full text-sm font-bold cursor-pointer transition-all ${
+                  className={`border rounded-full text-xs font-semibold cursor-pointer px-3 py-1.5 transition-all duration-200 shadow-sm ${
                     !tempFilters.oldestBlog
-                      ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white dark:from-blue-600 dark:to-purple-700"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                      ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600 shadow-md shadow-blue-500/10"
+                      : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-350 dark:border-slate-800 dark:hover:bg-slate-850"
                   }`}
                 >
-                  Newest
+                  Newest First
                 </Badge>
               </div>
             </div>
+
             {/* Date Range */}
-            <div>
-              <label className="blog-text1">Blog Creation Date Range</label>
-              <div className="mt-2">
+            <div className="relative p-5 shadow-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 transition-all duration-300 space-y-3">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-350">
+                Blog Creation Date Range
+              </label>
+              <div>
                 <Popover modal>
                   <PopoverTrigger asChild>
                     <Button
                       id="date"
                       variant="outline"
                       className={cn(
-                        "blog-select-field justify-start",
-                        !tempFilters.dateRange.from && "text-muted-foreground"
+                        "w-full px-5 py-5 rounded-2xl text-xs border font-semibold justify-start text-left shadow-sm bg-white/50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 dark:focus:ring-teal-500/10 dark:focus:border-teal-500",
+                        !tempFilters.dateRange.from && "text-slate-405"
                       )}
                     >
-                      <CalendarIcon />
+                      <CalendarIcon className="h-4 w-4 mr-2 text-slate-400" />
                       {tempFilters.dateRange.from ? (
                         tempFilters.dateRange.to ? (
                           <>
@@ -176,7 +184,7 @@ const FilterButton = ({
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl rounded-2xl shadow-xl mt-2" align="start">
                     <Calendar
                       initialFocus
                       mode="range"
@@ -208,21 +216,17 @@ const FilterButton = ({
                 </Popover>
               </div>
             </div>
+
             {/* Categories */}
-            <div
-              className="relative max-h-[300px] overflow-y-auto 
-                    p-3 shadow-sm rounded-xl border-2 
-                    bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-900
-                    border-cyan-400 dark:border-blue-800 transition-all"
-            >
-              <div className="flex items-center justify-between">
+            <div className="relative p-5 shadow-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 transition-all duration-300 max-h-[300px] overflow-y-auto scrollbar-thin">
+              <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
-                  <label className="budg-text1">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-350">
                     Categories ({blogCategories.length})
                   </label>
                   {/* Show Selected Count Badge */}
                   {selectedCategoryCount > 0 && (
-                    <Badge className="border-0 bg-gradient-to-r from-green-400 to-green-600 text-white px-2 py-1 rounded-full text-xs dark:from-green-500 dark:to-green-700 ">
+                    <Badge className="border-0 bg-emerald-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">
                       Selected: {selectedCategoryCount}
                     </Badge>
                   )}
@@ -230,23 +234,21 @@ const FilterButton = ({
                 <div>
                   {/* Clear Button */}
                   {selectedCategoryCount > 0 && (
-                    <Button
-                      variant="outline"
+                    <button
                       onClick={() =>
                         setTempFilters({
                           ...tempFilters,
                           category: [],
                         })
                       }
-                      className="del2"
-                      size="sm"
+                      className="text-[10px] font-bold uppercase tracking-wider text-rose-500 hover:text-rose-600 px-2.5 py-1 rounded-full bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/30 dark:border-rose-900/20 transition-all"
                     >
                       Clear Selection
-                    </Button>
+                    </button>
                   )}
                 </div>
               </div>
-              <div className="mt-2 flex flex-wrap gap-3">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {blogCategories.map((category) => (
                   <Badge
                     key={category}
@@ -260,10 +262,10 @@ const FilterButton = ({
                           : [...prev.category, category.toLowerCase()],
                       }));
                     }}
-                    className={`border-0 rounded-full text-sm cursor-pointer px-3 py-1 transition-all font-bold ${
+                    className={`border rounded-full text-xs font-semibold cursor-pointer px-3 py-1.5 transition-all duration-200 shadow-sm ${
                       tempFilters.category.includes(category.toLowerCase())
-                        ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                        ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600 shadow-md shadow-blue-500/10"
+                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-350 dark:border-slate-800 dark:hover:bg-slate-850"
                     }`}
                   >
                     {category}
@@ -274,15 +276,10 @@ const FilterButton = ({
 
             {/* Sub-Categories (Only Show When Categories Are Selected) */}
             {tempFilters.category.length > 0 && (
-              <div
-                className="relative max-h-[200px] overflow-y-auto 
-                    p-3 shadow-sm rounded-xl border-2 
-                    bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-900
-                    border-cyan-400 dark:border-blue-800 transition-all"
-              >
-                <div className="flex items-center justify-between">
+              <div className="relative p-5 shadow-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 transition-all duration-300 max-h-[220px] overflow-y-auto scrollbar-thin">
+                <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-2">
-                    <label className="blog-text1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-355">
                       Sub-Categories (
                       {
                         new Set(
@@ -295,7 +292,7 @@ const FilterButton = ({
                     </label>
                     {/* Show Selected Count Badge */}
                     {selectedSubCategoryCount > 0 && (
-                      <Badge className="border-0 bg-gradient-to-r from-green-400 to-green-600 text-white px-2 py-1 rounded-full text-xs dark:from-green-500 dark:to-green-700 ">
+                      <Badge className="border-0 bg-emerald-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">
                         Selected: {selectedSubCategoryCount}
                       </Badge>
                     )}
@@ -303,25 +300,23 @@ const FilterButton = ({
                   <div>
                     {/* Clear Button */}
                     {selectedSubCategoryCount > 0 && (
-                      <Button
-                        variant="outline"
+                      <button
                         onClick={() =>
                           setTempFilters({
                             ...tempFilters,
                             subCategories: [],
                           })
                         }
-                        className="text-sm rounded-full text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 dark:border-gray-300"
-                        size="sm"
+                        className="text-[10px] font-bold uppercase tracking-wider text-rose-500 hover:text-rose-600 px-2.5 py-1 rounded-full bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/30 dark:border-rose-900/20 transition-all"
                       >
                         Clear Selection
-                      </Button>
+                      </button>
                     )}
                   </div>
                 </div>
 
                 {/* Subcategories List */}
-                <div className="mt-3 flex flex-wrap gap-3">
+                <div className="mt-4 flex flex-wrap gap-2">
                   {[
                     ...new Set(
                       tempFilters.category.flatMap(
@@ -347,12 +342,12 @@ const FilterButton = ({
                                 ],
                           }));
                         }}
-                        className={`border-0 rounded-full text-sm font-bold cursor-pointer px-3 py-1 transition-all ${
+                        className={`border rounded-full text-xs font-semibold cursor-pointer px-3 py-1.5 transition-all duration-205 shadow-sm ${
                           tempFilters.subCategories.includes(
                             subCategory.toLowerCase()
                           )
-                            ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800"
-                            : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                            ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600 shadow-md shadow-blue-500/10"
+                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-350 dark:border-slate-800 dark:hover:bg-slate-850"
                         }`}
                       >
                         {subCategory}
@@ -363,20 +358,15 @@ const FilterButton = ({
             )}
 
             {/* Authors */}
-            <div
-              className="relative max-h-[300px] overflow-y-auto 
-                    p-3 shadow-sm rounded-xl border-2 
-                    bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-900
-                    border-cyan-400 dark:border-blue-800 transition-all"
-            >
-              <div className="flex items-center justify-between">
+            <div className="relative p-5 shadow-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 transition-all duration-300 max-h-[300px] overflow-y-auto scrollbar-thin">
+              <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
-                  <label className="budg-text1">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-350">
                     Authors ({blogAuthors.length})
                   </label>
                   {/* Show Selected Count Badge */}
                   {selectedAuthorCount > 0 && (
-                    <Badge className="border-0 bg-gradient-to-r from-green-400 to-green-600 text-white px-2 py-1 rounded-full text-xs dark:from-green-500 dark:to-green-700 ">
+                    <Badge className="border-0 bg-emerald-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">
                       Selected: {selectedAuthorCount}
                     </Badge>
                   )}
@@ -384,23 +374,21 @@ const FilterButton = ({
                 <div>
                   {/* Clear Button */}
                   {selectedAuthorCount > 0 && (
-                    <Button
-                      variant="outline"
+                    <button
                       onClick={() =>
                         setTempFilters({
                           ...tempFilters,
                           authors: [],
                         })
                       }
-                      className="del2"
-                      size="sm"
+                      className="text-[10px] font-bold uppercase tracking-wider text-rose-500 hover:text-rose-600 px-2.5 py-1 rounded-full bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/30 dark:border-rose-900/20 transition-all"
                     >
                       Clear Selection
-                    </Button>
+                    </button>
                   )}
                 </div>
               </div>
-              <div className="mt-2 flex flex-wrap gap-3">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {blogAuthors.map((author) => (
                   <Badge
                     key={author}
@@ -414,10 +402,10 @@ const FilterButton = ({
                           : [...prev.category, author.toLowerCase()],
                       }));
                     }}
-                    className={`border-0 rounded-full text-sm cursor-pointer px-3 py-1 transition-all font-bold ${
+                    className={`border rounded-full text-xs font-semibold cursor-pointer px-3 py-1.5 transition-all duration-200 shadow-sm ${
                       tempFilters.authors.includes(author.toLowerCase())
-                        ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                        ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600 shadow-md shadow-blue-500/10"
+                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-355 dark:border-slate-800 dark:hover:bg-slate-850"
                     }`}
                   >
                     {author}
@@ -427,19 +415,28 @@ const FilterButton = ({
             </div>
 
             {/* Buttons */}
-            <div className="flex justify-end space-x-4">
-              <Button variant="outline" onClick={clearFilters} className="del2">
+            <div className="flex flex-wrap items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800/80">
+              <button
+                onClick={clearFilters}
+                className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-750 dark:text-slate-300 border border-slate-200 dark:border-slate-800 rounded-full hover:bg-slate-50 dark:hover:bg-slate-850 hover:scale-105 active:scale-95 transition-all duration-200 shadow-sm"
+              >
                 Clear Filters
-              </Button>
+              </button>
               {hasActiveFilters && (
-                <Button onClick={resetFilters} className="del3">
+                <button
+                  onClick={resetFilters}
+                  className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-rose-500 hover:text-rose-600 bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/30 dark:border-rose-900/20 rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-sm"
+                >
                   Reset Filters
-                </Button>
+                </button>
               )}
               <DialogClose asChild>
-                <Button onClick={applyFilters} className="budg-btn4">
+                <button
+                  onClick={applyFilters}
+                  className="px-6 py-3 text-xs font-black uppercase tracking-wider text-white bg-blue-500 hover:bg-blue-600 rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-md shadow-blue-500/10"
+                >
                   Apply Filters
-                </Button>
+                </button>
               </DialogClose>
             </div>
           </div>
@@ -447,7 +444,10 @@ const FilterButton = ({
       </Dialog>
 
       {hasActiveFilters && (
-        <button onClick={resetFilters} className="del3">
+        <button
+          onClick={resetFilters}
+          className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-rose-500 hover:text-rose-600 bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/30 dark:border-rose-900/20 rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-sm"
+        >
           Reset Filters
         </button>
       )}

@@ -52,7 +52,7 @@ const BlogShare = ({ isOpen, onClose, title, description, url }) => {
     {
       name: "WhatsApp",
       icon: MessageCircle,
-      color: "bg-green-500 hover:bg-green-600",
+      color: "bg-green-500",
       url: `https://api.whatsapp.com/send?text=${encodeURIComponent(
         `${title} - ${url}`
       )}`,
@@ -60,7 +60,7 @@ const BlogShare = ({ isOpen, onClose, title, description, url }) => {
     {
       name: "Twitter",
       icon: Twitter,
-      color: "bg-blue-500 hover:bg-blue-600",
+      color: "bg-slate-900 dark:bg-slate-800",
       url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         title
       )}&url=${encodeURIComponent(url)}`,
@@ -68,7 +68,7 @@ const BlogShare = ({ isOpen, onClose, title, description, url }) => {
     {
       name: "LinkedIn",
       icon: Linkedin,
-      color: "bg-blue-700 hover:bg-blue-800",
+      color: "bg-blue-600",
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
         url
       )}`,
@@ -76,7 +76,7 @@ const BlogShare = ({ isOpen, onClose, title, description, url }) => {
     {
       name: "Email",
       icon: Mail,
-      color: "bg-gray-600 hover:bg-gray-700",
+      color: "bg-slate-500",
       url: `mailto:?subject=${encodeURIComponent(
         title
       )}&body=${encodeURIComponent(`${description}\n\n${url}`)}`,
@@ -87,7 +87,7 @@ const BlogShare = ({ isOpen, onClose, title, description, url }) => {
     {
       name: "Reddit",
       icon: ExternalLink,
-      color: "bg-orange-500 hover:bg-orange-600",
+      color: "bg-orange-500",
       url: `https://reddit.com/submit?url=${encodeURIComponent(
         url
       )}&title=${encodeURIComponent(title)}`,
@@ -95,7 +95,7 @@ const BlogShare = ({ isOpen, onClose, title, description, url }) => {
     {
       name: "Telegram",
       icon: Send,
-      color: "bg-sky-500 hover:bg-sky-600",
+      color: "bg-sky-500",
       url: `https://t.me/share/url?url=${encodeURIComponent(
         url
       )}&text=${encodeURIComponent(title)}`,
@@ -106,81 +106,104 @@ const BlogShare = ({ isOpen, onClose, title, description, url }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-slate-950/40 backdrop-blur-md transition-opacity duration-300"
         onClick={onClose}
       />
-      <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-slate-800 dark:text-white">
+      
+      {/* Modal Container */}
+      <div className="relative bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl rounded-[2.2rem] border border-slate-200 dark:border-slate-800/80 shadow-[0_30px_70px_rgba(0,0,0,0.15)] w-full max-w-md p-6 sm:p-7 overflow-hidden z-10 transition-all duration-300 transform scale-100">
+        
+        {/* Title bar */}
+        <div className="flex justify-between items-center mb-5">
+          <h2 className="text-lg font-bold text-slate-850 dark:text-white uppercase tracking-wider text-xs">
             Share this Blog
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+            className="p-1.5 rounded-full border border-slate-100 dark:border-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-850 hover:scale-105 active:scale-95 transition-all text-slate-500"
           >
-            <X className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="mb-4">
-          <h3 className="text-base font-medium mb-1 dark:text-white">
+        {/* Blog description text */}
+        <div className="mb-6 space-y-1.5 p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-900/30 border border-slate-200/50 dark:border-slate-850">
+          <h3 className="text-sm font-black text-slate-900 dark:text-slate-100 leading-snug">
             {title}
           </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-300">
+          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
             {description}
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mb-4">
+        {/* Share buttons grid */}
+        <div className="grid grid-cols-4 gap-3.5 mb-5">
           {shareOptions.map((option) => (
             <a
               key={option.name}
               href={option.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center justify-center gap-2 p-3 rounded-lg text-white ${option.color}`}
+              className="flex flex-col items-center justify-center gap-2 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 hover:bg-slate-100/85 dark:hover:bg-slate-850 hover:scale-105 active:scale-95 transition-all duration-200 shadow-sm"
             >
-              <option.icon className="w-4 h-4" />
-              <span>{option.name}</span>
+              <div className={`p-2.5 rounded-full text-white shadow-sm flex items-center justify-center ${option.color}`}>
+                <option.icon className="w-4 h-4" />
+              </div>
+              <span className="text-[10px] font-bold text-slate-600 dark:text-slate-400 tracking-wider">
+                {option.name}
+              </span>
             </a>
           ))}
         </div>
 
-        <button
-          onClick={copyToClipboard}
-          className="w-full flex items-center justify-center gap-2 p-3 bg-slate-100 dark:bg-slate-700 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600"
-        >
-          {copied ? (
-            <>
-              <Check className="text-green-500 w-4 h-4" />
-              Copied!
-            </>
-          ) : (
-            <>
-              <Copy className="text-slate-600 dark:text-slate-300 w-4 h-4" />
-              Copy Link
-            </>
-          )}
-        </button>
+        {/* Copy url link bar */}
+        <div className="relative mt-4 flex items-center border border-slate-200 dark:border-slate-800 rounded-2xl p-1 bg-slate-50/50 dark:bg-slate-900/30">
+          <input
+            type="text"
+            readOnly
+            value={url}
+            className="flex-grow bg-transparent border-none outline-none text-xs text-slate-500 dark:text-slate-400 px-3 truncate"
+          />
+          <button
+            onClick={copyToClipboard}
+            className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-blue-500 hover:bg-blue-600 rounded-xl transition-all shadow-md shadow-blue-500/10 hover:scale-102 active:scale-98 flex items-center gap-1.5 shrink-0"
+          >
+            {copied ? (
+              <>
+                <Check className="w-3.5 h-3.5" />
+                <span>Copied</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-3.5 h-3.5" />
+                <span>Copy</span>
+              </>
+            )}
+          </button>
+        </div>
 
-        <div className="hidden sm:grid grid-cols-2 gap-3 mt-6 pt-4 border-t dark:border-slate-600">
+        {/* Bonus Options */}
+        <div className="hidden sm:grid grid-cols-2 gap-3 mt-6 pt-5 border-t border-slate-200 dark:border-slate-800/80">
           {bonusOptions.map((option) => (
             <a
               key={option.name}
               href={option.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center justify-center gap-2 p-2.5 text-white text-sm rounded-lg ${option.color}`}
+              className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 hover:bg-slate-100/80 dark:hover:bg-slate-850 hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-350 shadow-sm"
             >
-              <option.icon className="w-4 h-4" />
-              {option.name}
+              <div className={`p-1.5 rounded-full text-white ${option.color} flex items-center justify-center`}>
+                <option.icon className="w-3 h-3" />
+              </div>
+              <span>{option.name}</span>
             </a>
           ))}
         </div>
 
         {showToast && (
-          <div className="fixed bottom-6 right-6 bg-green-500 text-white px-4 py-2 rounded-lg shadow-md flex items-center gap-2">
+          <div className="fixed bottom-6 right-6 bg-emerald-500 text-white px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 text-xs font-bold uppercase tracking-wider z-50 animate-bounce">
             <Check className="w-4 h-4" />
             Link copied!
           </div>
